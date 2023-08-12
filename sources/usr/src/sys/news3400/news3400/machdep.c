@@ -37,7 +37,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)machdep.c	8.3 (Berkeley) 1/12/94
+ *	@(#)machdep.c	8.4 (Berkeley) 5/9/95
  */
 
 /* from: Utah $Hdr: machdep.c 1.63 91/04/24$ */
@@ -667,6 +667,11 @@ boot(howto)
 #endif
 #endif
 		sync(&proc0, (void *)NULL, (int *)NULL);
+		/*
+		 * Unmount filesystems
+		 */
+		if (panicstr == 0)
+			vfs_unmountall();
 
 		for (iter = 0; iter < 20; iter++) {
 			nbusy = 0;

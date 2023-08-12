@@ -5,7 +5,7 @@ des_clear_key	des_rw.c	/^des_clear_key()$/
 des_read	des_rw.c	/^des_read(fd, buf, len)$/
 des_set_key	des_rw.c	/^des_set_key(inkey, insched)$/
 des_write	des_rw.c	/^des_write(fd, buf, len)$/
-doit	rlogin.c	/^doit(omask)$/
+doit	rlogin.c	/^doit(smask)$/
 done	rlogin.c	/^done(status)$/
 echo	rlogin.c	/^echo(c)$/
 get_window_size	rlogin.c	/^#define	get_window_size(fd, wp)	ioctl(fd, TIOCGWIN/
@@ -18,10 +18,11 @@ lostpeer	rlogin.c	/^lostpeer(signo)$/
 mode	rlogin.c	/^mode(f)$/
 msg	rlogin.c	/^msg(str)$/
 oob	rlogin.c	/^oob(signo)$/
-reader	rlogin.c	/^reader(omask)$/
+reader	rlogin.c	/^reader(smask)$/
 sendwindow	rlogin.c	/^sendwindow()$/
 setsignal	rlogin.c	/^setsignal(sig)$/
 sigwinch	rlogin.c	/^sigwinch(signo)$/
+speed	rlogin.c	/^speed(fd)$/
 stop	rlogin.c	/^stop(cmdc)$/
 usage	rlogin.c	/^usage()$/
 warning	rlogin.c	/^warning(fmt, va_alist)$/

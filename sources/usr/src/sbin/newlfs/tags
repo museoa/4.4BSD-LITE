@@ -8,7 +8,7 @@ lfsinit	lfs.c	/^lfsinit()$/
 log2	misc.c	/^log2(num)$/
 make_dinode	lfs.c	/^make_dinode(ino, dip, nblocks, saddr, lfsp)$/
 make_dir	lfs.c	/^make_dir(bufp, protodir, entries)$/
-make_lfs	lfs.c	/^make_lfs(fd, lp, partp, minfree, block_size, seg_s/
+make_lfs	lfs.c	/^make_lfs(fd, lp, partp, minfree, block_size, frag_/
 put	lfs.c	/^put(fd, off, p, len)$/
 rewritelabel	newfs.c	/^rewritelabel(s, fd, lp)$/
 usage	newfs.c	/^usage()$/

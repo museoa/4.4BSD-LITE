@@ -6,6 +6,7 @@ clean	cmds.c	/^clean(argc, argv)$/
 cleanpr	cmds.c	/^cleanpr()$/
 cmdscanner	lpc.c	/^cmdscanner(top)$/
 compar	../common_source/common.c	/^compar(p1, p2)$/
+delay	../common_source/common.c	/^delay(n)$/
 disable	cmds.c	/^disable(argc, argv)$/
 disablepr	cmds.c	/^disablepr()$/
 doabort	cmds.c	/^doabort(argc, argv)$/
@@ -17,9 +18,10 @@ enablepr	cmds.c	/^enablepr()$/
 fatal	../common_source/common.c	/^fatal(msg, va_alist)$/
 getcmd	lpc.c	/^getcmd(name)$/
 getline	../common_source/common.c	/^getline(cfp)$/
-getport	../common_source/common.c	/^getport(rhost)$/
+getport	../common_source/common.c	/^getport(rhost, rport)$/
 getq	../common_source/common.c	/^getq(namelist)$/
 help	lpc.c	/^help(argc, argv)$/
+ingroup	lpc.c	/^ingroup(grname)$/
 intr	lpc.c	/^intr(signo)$/
 makeargv	lpc.c	/^makeargv()$/
 perr	../common_source/startdaemon.c	/^perr(msg)$/

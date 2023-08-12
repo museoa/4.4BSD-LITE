@@ -28,7 +28,7 @@ masterack	readmsg.c	/^masterack()$/
 masterup	master.c	/^masterup(net)$/
 mchgdate	master.c	/^mchgdate(msg)$/
 measure	measure.c	/^measure(maxmsec, wmsec, hname, addr, print)$/
-median	networkdelta.c	/^median(a, eps_ptr, x, xlim, gnuf)$/
+median	networkdelta.c	/^median(a0, eps_ptr, x, xlim, gnuf)$/
 mstotvround	measure.c	/^mstotvround(res, x)$/
 networkdelta	networkdelta.c	/^networkdelta()$/
 newslave	master.c	/^newslave(msg)$/

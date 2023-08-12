@@ -90,7 +90,6 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
        with  a  backslash.  Lines beginning with `#' are ignored.
        The format of each line in the _._m_a_i_l_d_e_l_i_v_e_r_y file is:
 
-
             hheeaaddeerr    ppaatttteerrnn   aaccttiioonn    rreessuulltt    ssttrriinngg
 
        hheeaaddeerr:
@@ -121,6 +120,7 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
                       file  in  the maildrop format which is used
                       by your message transport system.   If  the
                       message  can  be appended to the file, then
+                      this action succeeds.  When writing to  the
 
 
 
@@ -136,7 +136,6 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
 
-                      this action succeeds.  When writing to  the
                       file,  a  "Delivery-Date: date"  header  is
                       added which indicates  the  date  and  time
                       that message was appended to the file.
@@ -179,7 +178,6 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
             _R         Perform the action.  Regardless of the out-
                       come of the action, the message is not con-
                       sidered delivered.
-
             _?         Perform  the action only if the message has
                       not been delivered.   If  the  action  suc-
                       ceeds,   then  the  message  is  considered
@@ -187,6 +185,8 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
             _N         Perform the action only if the message  has
                       not  been delivered and the previous action
+                      succeeded.  If this action  succeeds,  then
+                      the message is considered delivered.
 
 
 
@@ -201,9 +201,6 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
 SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
-
-                      succeeded.  If this action  succeeds,  then
-                      the message is considered delivered.
 
        To summarize, here's an example:
 
@@ -253,6 +250,9 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
        appropriately, and no other envariables exist.
 
        The  process is given a certain amount of time to execute.
+       If the process does not exit within this limit,  the  pro-
+       cess  will  be  terminated  with  extreme  prejudice.  The
+       amount of time is  calculated  as  ((size  x  60)  +  300)
 
 
 
@@ -268,24 +268,20 @@ SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
 
-       If the process does not exit within this limit,  the  pro-
-       cess  will  be  terminated  with  extreme  prejudice.  The
-       amount of time is calculated as ((size x 60) +  300)  sec-
-       onds, where size is the number of bytes in the message.
+       seconds, where size is the number of bytes in the message.
 
        The exit status of the process is consulted in determining
-       the success of the action.  An exit status of  zero  means
-       that  the  action  succeeded.   Any  other exit status (or
-       abnormal termination) means that the action failed.
-
-       In order to avoid any time limitations, you  might  imple-
-       ment  a  process  that began by _f_o_r_k_i_n_g.  The parent would
-       return the appropriate value immediately,  and  the  child
-       could continue on, doing whatever it wanted for as long as
-       it wanted.  This approach is somewhat risky if the  parent
-       is  going to return an exit status of zero.  If the parent
-       is going to return  a  non-zero  exit  status,  then  this
-       approach  can lead to quicker delivery into your maildrop.
+       the  success  of the action.  An exit status of zero means
+       that the action succeeded.   Any  other  exit  status  (or
+       abnormal  termination)  means  that the action failed.  In
+       order to avoid any time limitations, you might implement a
+       process  that  began  by _f_o_r_k_i_n_g.  The parent would return
+       the appropriate value immediately,  and  the  child  could
+       continue  on,  doing  whatever it wanted for as long as it
+       wanted.  This approach is somewhat risky if the parent  is
+       going  to return an exit status of zero.  If the parent is
+       going to return a non-zero exit status, then this approach
+       can lead to quicker delivery into your maildrop.
 
 FFIILLEESS
        /usr/contrib/mh-6.8/lib/mtstailor         MH tailor file
@@ -307,18 +303,22 @@ CCOONNTTEEXXTT
        None
 
 HHIISSTTOORRYY
-       _S_l_o_c_a_l is designed  to  be  backward-compatible  with  the
-       _m_a_i_l_d_e_l_i_v_e_r_y  facility  provided  by  _M_M_D_F_-_I_I.   Thus, the
-       _._m_a_i_l_d_e_l_i_v_e_r_y file syntax is limited, as is the  function-
+       _S_l_o_c_a_l  is  designed  to  be  backward-compatible with the
+       _m_a_i_l_d_e_l_i_v_e_r_y facility  provided  by  _M_M_D_F_-_I_I.   Thus,  the
+       _._m_a_i_l_d_e_l_i_v_e_r_y  file syntax is limited, as is the function-
        ality of _s_l_o_c_a_l.
 
-       In  addition  to  an  exit status of zero, the _M_M_D_F values
-       _R_P___M_O_K (32) and _R_P___O_K (9) mean that the message  has  been
-       fully  delivered.  Any other non-zero exit status, includ-
+       In addition to an exit status of  zero,  the  _M_M_D_F  values
+       _R_P___M_O_K  (32)  and _R_P___O_K (9) mean that the message has been
+       fully delivered.  Any other non-zero exit status,  includ-
        ing abnormal termination, is interpreted as the _M_M_D_F value
        _R_P___M_E_C_H  (200),  which  means  "use  an  alternate  route"
        (deliver the message to the maildrop).
 
+BBUUGGSS
+       Only two return codes are meaningful, others should be.
+
+       _S_l_o_c_a_l  is  designed  to  be backwards-compatible with the
 
 
 
@@ -334,19 +334,19 @@ HHIISSTTOORRYY
 SLOCAL(1)              BSD Reference Manual             SLOCAL(1)
 
 
-BBUUGGSS
-       Only two return codes are meaningful, others should be.
-
-       _S_l_o_c_a_l is designed to  be  backwards-compatible  with  the
        _m_a_i_l_d_e_l_i_v_e_r_y functionality provided by MMMMDDFF--IIII.
 
-       Versions  of  _M_M_D_F  with the _m_a_i_l_d_e_l_i_v_e_r_y mechanism aren't
-       entirely backwards-compatible  with  earlier  versions  of
-       _M_M_D_F.   If you have an _M_M_D_F_-_I old-style hook, the best you
+       Versions of _M_M_D_F with the  _m_a_i_l_d_e_l_i_v_e_r_y  mechanism  aren't
+       entirely  backwards-compatible  with  earlier  versions of
+       _M_M_D_F.  If you have an _M_M_D_F_-_I old-style hook, the best  you
        can do is to have a one-line _._m_a_i_l_d_e_l_i_v_e_r_y file:
 
-            default -  pipe  A  "bin/rcvmail  $(address)  $(info)
+            default  -  pipe  A  "bin/rcvmail  $(address) $(info)
        $(sender)"
+
+
+
+
 
 
 

@@ -9,7 +9,6 @@ dump_ipage_segusage	dumplfs.c	/^dump_ipage_segusage(lfsp, i, pp, tot)$/
 dump_segment	dumplfs.c	/^dump_segment(fd, segnum, addr, lfsp, dump_sb)$/
 dump_sum	dumplfs.c	/^dump_sum(fd, lfsp, sp, segnum, addr)$/
 dump_super	dumplfs.c	/^dump_super(lfsp)$/
-err	misc.c	/^err(fmt, va_alist)$/
 get	misc.c	/^get(fd, off, p, len)$/
 print_ientry	dumplfs.c	/^#define print_ientry(i, ip) \\$/
 print_suentry	dumplfs.c	/^#define print_suentry(i, sp) \\$/

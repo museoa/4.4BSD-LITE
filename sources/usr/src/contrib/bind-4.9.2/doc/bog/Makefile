@@ -59,12 +59,12 @@ FILES=	00macs.me 00title.me intro.me build.me types.me\
 	root.cache named.local ucbhosts ucbhosts.rev manage.me
 ME=	-me
 NROFF=	nroff -rb3
-PRINTER= -Pdp
+PRINTER= -Plz
 TBL=	dtbl $(PRINTER)
-TROFF= ditroff $(PRINTER)
+TROFF= ditroff $(PRINTER) $(ME) $(FLAGS) -t | psdit >paper.ps
 GROFF= groff -Tps -t $(ME)
 
-all: file.lst
+all: paper.ps
 
 file.lst: $(FILES)
 	tbl $(FILES)| $(NROFF) $(ME) $(FLAGS) > file.lst
@@ -72,14 +72,14 @@ file.lst: $(FILES)
 file.psf: $(FILES)
 	$(GROFF) $(FILES) > file.psf
 	
-troff: $(FILES)
-	$(TBL) $(FILES)| $(TROFF) $(ME) $(FLAGS)
+paper.ps: $(FILES)
+	$(TBL) $(FILES)| $(TROFF)
 
 cat: $(FILES)
 	@cat $(FILES)
 
 clean:
-	rm -f *.psf *.BAK *.CKP *~ *.orig
+	rm -f *.psf *.BAK *.CKP *~ *.orig *.ps
 	rm -f file
 
 spell: $(FILES)

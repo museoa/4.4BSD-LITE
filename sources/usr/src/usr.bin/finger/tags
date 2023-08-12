@@ -3,7 +3,6 @@ demi_print	lprint.c	/^demi_print(str, oddfield)$/
 enter_lastlog	util.c	/^enter_lastlog(pn)$/
 enter_person	util.c	/^enter_person(pw)$/
 enter_where	util.c	/^enter_where(ut, pn)$/
-err	util.c	/^err(fmt, va_alist)$/
 find_idle_and_ttywrite	util.c	/^find_idle_and_ttywrite(w)$/
 find_person	util.c	/^find_person(name)$/
 lflag_print	lprint.c	/^lflag_print()$/

@@ -8,7 +8,7 @@ getport	../rlogin/kcmd.c	/^getport(alport)$/
 kcmd	../rlogin/kcmd.c	/^kcmd(sock, ahost, rport, locuser, remuser, cmd, fd/
 krcmd	../rlogin/krcmd.c	/^krcmd(ahost, rport, remuser, cmd, fd2p, realm)$/
 krcmd_mutual	../rlogin/krcmd.c	/^krcmd_mutual(ahost, rport, remuser, cmd, fd2p, rea/
-sendsig	rsh.c	/^sendsig(signo)$/
+sendsig	rsh.c	/^sendsig(sig)$/
 talk	rsh.c	/^talk(nflag, omask, pid, rem)$/
 usage	rsh.c	/^usage()$/
 warning	rsh.c	/^warning(va_alist)$/

@@ -367,7 +367,7 @@ sourceroute	../../telnet/commands.c	/^sourceroute(arg, cpp, lenp)$/
 special	../../telnet/commands.c	/^special(s)$/
 status	../../telnet/commands.c	/^status(argc, argv)$/
 stilloob	../../telnet/network.c	/^stilloob()$/
-strip	../../telnet/telnet.c	/^#define	strip(x)	((x)&0x7f)$/
+strip	../../telnet/telnet.c	/^#define	strip(x) ((my_want_state_is_wont(TELOPT_BI/
 strsave	../ascii/map3270.c	/^strsave(string)$/
 suboption	../../telnet/telnet.c	/^suboption()$/
 susp	../../telnet/sys_bsd.c	/^susp(sig)$/

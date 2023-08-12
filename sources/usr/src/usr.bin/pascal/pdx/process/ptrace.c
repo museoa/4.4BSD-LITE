@@ -32,7 +32,7 @@
  */
 
 #ifndef lint
-static char sccsid[] = "@(#)ptrace.c	8.1 (Berkeley) 6/6/93";
+static char sccsid[] = "@(#)ptrace.c	8.3 (Berkeley) 5/31/94";
 #endif /* not lint */
 
 /*
@@ -53,8 +53,14 @@ static char sccsid[] = "@(#)ptrace.c	8.1 (Berkeley) 6/6/93";
 #       include "pxinfo.h"
 
 #ifdef mc68000
+#if defined(hp300) || defined(luna68k)
+#include <sys/user.h>
+#	define U_PAGE 0xfff00000
+#	define U_AR0  (int)&((struct user *)0)->u_ar0
+#else
 #	define U_PAGE 0x2400
 #	define U_AR0  (14*sizeof(int))
+#endif
 	LOCAL int ar0val = -1;
 #endif
 
@@ -66,7 +72,12 @@ static char sccsid[] = "@(#)ptrace.c	8.1 (Berkeley) 6/6/93";
 #if defined(vax) || defined(tahoe)
 #	define regloc(reg)     (ctob(UPAGES) + ( sizeof(int) * (reg) ))
 #else
+#if defined(hp300) || defined(luna68k)
+#	define regloc(reg)     \
+	(ar0val + ( sizeof(int) * (reg) + ((reg) >= PS ? 2 : 0) ))
+#else
 #	define regloc(reg)     (ar0val + ( sizeof(int) * (reg) ))
+#endif
 #endif
 
 #define WMASK           (~(sizeof(WORD) - 1))
@@ -257,7 +268,7 @@ LOCAL sigs_on()
 #endif
 #if mc68000
     LOCAL int rloc[] ={
-	R0, R1, R2, R3, R4, R5, R6, R7, AR0, AR1, AR2, AR3, AR4, AR5,
+	D0, D1, D2, D3, D4, D5, D6, D7, A0, A1, A2, A3, A4, A5,
     };
 #endif
 
@@ -296,7 +307,7 @@ register int status;
     p->ap = p->oap = ptrace(UREAD, p->pid, regloc(AP), 0);
 #endif
 #ifdef mc68000
-    p->fp = p->ofp = ptrace(UREAD, p->pid, regloc(AR6), 0);
+    p->fp = p->ofp = ptrace(UREAD, p->pid, regloc(A6), 0);
     p->ap = p->oap = p->fp;
     p->sp = p->osp = ptrace(UREAD, p->pid, regloc(SP), 0);
     p->pc = p->opc = ptrace(UREAD, p->pid, regloc(PC), 0);
@@ -333,7 +344,7 @@ register PROCESS *p;
 #endif
 #if mc68000
     if ((r = p->fp) != p->ofp) {
-	ptrace(UWRITE, p->pid, regloc(AR6), r);
+	ptrace(UWRITE, p->pid, regloc(A6), r);
     }
 #endif
     if ((r = p->sp) != p->osp) {

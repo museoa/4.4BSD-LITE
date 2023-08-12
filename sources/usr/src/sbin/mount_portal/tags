@@ -5,7 +5,7 @@ activate_argv	activate.c	/^static int activate_argv(pcr, key, v, so, fdp)$/
 conf_match	conf.c	/^char **conf_match(q0, key)$/
 conf_read	conf.c	/^void conf_read(q, conf)$/
 get_request	activate.c	/^static int get_request(so, pcr, key, klen)$/
-getmntopts	../mount/getmntopts.c	/^getmntopts(options, m0, flagp)$/
+getmntopts	../mount/getmntopts.c	/^getmntopts(options, m0, flagp, altflagp)$/
 ins_que	conf.c	/^static void ins_que(elem, pred)$/
 palloc	conf.c	/^static path *palloc(cline, lno)$/
 pfree	conf.c	/^static void pfree(p)$/

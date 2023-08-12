@@ -93,6 +93,8 @@ igcomp	cmd2.c	/^igcomp(l, r)$/
 igfield	cmd2.c	/^igfield(list)$/
 ignore1	cmd2.c	/^ignore1(list, tab, which)$/
 igshow	cmd2.c	/^igshow(tab, which)$/
+inc	cmd1.c	/^inc()$/
+incfile	lex.c	/^incfile()$/
 infix	send.c	/^infix(hp, fi)$/
 intr	lex.c	/^intr(s)$/
 isdate	head.c	/^isdate(date)$/
@@ -108,11 +110,12 @@ load	lex.c	/^load(name)$/
 lookup	vars.c	/^lookup(name)$/
 mail	send.c	/^mail(to, cc, bcc, smopts, subject)$/
 mail1	send.c	/^mail1(hp, printheaders)$/
-makemessage	fio.c	/^makemessage(f)$/
+makemessage	fio.c	/^makemessage(f, omsgCount)$/
 mark	list.c	/^mark(mesg)$/
 markall	list.c	/^markall(buf, f)$/
 matchsender	list.c	/^matchsender(str, mesg)$/
 matchsubj	list.c	/^matchsubj(str, mesg)$/
+matchto	list.c	/^matchto(str, mesg)$/
 mboxit	cmd1.c	/^mboxit(msgvec)$/
 member	aux.c	/^member(realfield, table)$/
 mesedit	collect.c	/^mesedit(fp, c)$/
@@ -123,7 +126,7 @@ more	cmd1.c	/^more(msgvec)$/
 nalloc	names.c	/^nalloc(str, ntype)$/
 name1	aux.c	/^name1(mp, reptype)$/
 nameof	aux.c	/^nameof(mp, reptype)$/
-newfileinfo	lex.c	/^newfileinfo()$/
+newfileinfo	lex.c	/^newfileinfo(omsgCount)$/
 next	cmd2.c	/^next(msgvec)$/
 nextword	head.c	/^nextword(wp, wbuf)$/
 null	cmd3.c	/^null(e)$/
@@ -175,7 +178,7 @@ set	cmd3.c	/^set(arglist)$/
 setfile	lex.c	/^setfile(name)$/
 setinput	fio.c	/^setinput(mp)$/
 setmsize	lex.c	/^setmsize(sz)$/
-setptr	fio.c	/^setptr(ibuf)$/
+setptr	fio.c	/^setptr(ibuf, offset)$/
 setscreensize	main.c	/^setscreensize()$/
 shell	cmd3.c	/^shell(str)$/
 sigchild	popen.c	/^sigchild(signo)$/

@@ -143,7 +143,6 @@ in the following sections.
 \-pipe
 \-v
 .RI "\-x " language
-
 .TP
 .B Language Options
 \-ansi
@@ -163,7 +162,6 @@ in the following sections.
 \-traditional
 \-traditional\-cpp
 \-trigraphs
-
 .TP
 .B Warning Options
 \-fsyntax\-only
@@ -195,7 +193,6 @@ in the following sections.
 \-Wuninitialized
 \-Wunused
 \-Wwrite\-strings
-
 .TP
 .B Debugging Options
 \-a
@@ -209,7 +206,6 @@ in the following sections.
 \-p
 \-pg
 \-save\-temps
-
 .TP
 .B Optimization Options
 \-fcaller\-saves
@@ -237,7 +233,6 @@ in the following sections.
 \-funroll\-loops
 \-O
 \-O2
-
 .TP
 .B Preprocessor Options
 \-C
@@ -256,25 +251,21 @@ in the following sections.
 \-P
 .RI \-U macro
 \-undef
-
 .TP
 .B Linker Options
 .RI \-l library
 \-nostdlib
 \-static
-
 .TP
 .B Directory Options
 .RI \-B prefix
 .RI \-I dir
 \-I\-
 .RI \-L dir
-
 .TP
 .B Target Options
 .RI "\-b  " machine
 .RI "\-V " version
-
 .TP
 .B Machine Dependent Options
 .I M680x0\ Options
@@ -290,25 +281,25 @@ in the following sections.
 \-mrtd
 \-mshort
 \-msoft\-float
-
+.br
 .I VAX Options
 .br
 \-mg
 \-mgnu
 \-munix
-
+.br
 .I SPARC Options
 .br
 \-mfpu
 \-mno\-epilogue
-
+.br
 .I Convex Options
 .br
 \-margcount
 \-mc1
 \-mc2
 \-mnoargcount
-
+.br
 .I AMD29K Options
 .br
 \-m29000
@@ -322,7 +313,7 @@ in the following sections.
 \-msmall
 \-mstack\-check
 \-muser\-registers
-
+.br
 .I M88K Options
 .br
 \-mbig\-pic
@@ -344,12 +335,12 @@ in the following sections.
 \-muse\-div\-instruction
 \-mversion\-03.00
 \-mwarn\-passed\-structs
-
+.br
 .I RS6000 Options
 .br
 \-mfp\-in\-toc
 \-mno\-fop\-in\-toc
-
+.br
 .I RT Options
 .br
 \-mcall\-lib\-mul
@@ -360,7 +351,7 @@ in the following sections.
 \-min\-line\-mul
 \-mminimum\-fp\-blocks
 \-mnohc\-struct\-return
-
+.br
 .I MIPS Options
 .br
 \-mcpu=\fIcpu type\fP
@@ -388,13 +379,12 @@ in the following sections.
 \-mhalf\-pic
 \-mno\-half\-pic
 \-G \fInum\fP
-
+.br
 .I i386 Options
 .br
 \-m486
 \-mno486
 \-msoft\-float
-
 .TP
 .B Code Generation Options
 .RI +e N
@@ -703,6 +693,7 @@ Support ANSI C trigraphs.  The `\|\c
 \&\|' option implies `\|\c
 .B \-trigraphs\c
 \&\|'.
+.bp
 .TP
 .B \-traditional
 Attempt to support some aspects of traditional C compilers.
@@ -859,7 +850,7 @@ Let the type \c
 \& be signed, like \c
 .B signed char\c
 \&.
-
+.br
 Note that this is equivalent to `\|\c
 .B \-fno\-unsigned\-char\c
 \&\|', which is
@@ -953,7 +944,7 @@ the directories you have specified with `\|\c
 .B \-I\c
 \&\|' options (and the
 current directory, if appropriate) are searched.   
-
+.br
 By using both `\|\c
 .B \-nostdinc\c
 \&\|' and `\|\c
@@ -999,7 +990,7 @@ continued with `\|\c
 .B \e\c
 \&\|newline if it is long.  The list of rules is
 printed on the standard output instead of the preprocessed C program.
-
+.br
 `\|\c
 .B \-M\c
 \&\|' implies `\|\c
@@ -1037,7 +1028,7 @@ specified\(em\&`\|\c
 `\|\c
 .B \-M\c
 \&\|' does.
-
+.br
 The Mach utility `\|\c
 .B md\c
 \&\|' can be used to merge the `\|\c
@@ -3061,7 +3052,7 @@ value.
 .SH CODE GENERATION OPTIONS
 These machine-independent options control the interface conventions
 used in code generation.
-
+.br
 Most of them begin with `\|\c
 \-f\c
 \&\|'.  These options have both positive and negative forms; the negative form

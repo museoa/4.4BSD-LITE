@@ -39,7 +39,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)machdep.c	8.6 (Berkeley) 1/14/94
+ *	@(#)machdep.c	8.8 (Berkeley) 5/9/95
  *
  * from: $Header: machdep.c,v 1.44 93/10/31 05:28:36 torek Exp $
  */
@@ -366,7 +366,7 @@ void
 sendsig(catcher, sig, mask, code)
 	sig_t catcher;
 	int sig, mask;
-	unsigned code;
+	u_long code;
 {
 	register struct proc *p = curproc;
 	register struct sigacts *psp = p->p_sigacts;
@@ -560,6 +560,11 @@ boot(howto)
 		if (panicstr == 0)
 			vnode_pager_umount((struct mount *)NULL);
 		sync(&proc0, (void *)NULL, (int *)NULL);
+		/*
+		 * Unmount filesystems
+		 */
+		if (panicstr == 0)
+			vfs_unmountall();
 
 		for (iter = 0; iter < 20; iter++) {
 			nbusy = 0;

@@ -12,7 +12,7 @@ __stop_signal_handler	tstp.c	/^__stop_signal_handler(signo)$/
 __swflags	newwin.c	/^__swflags(win)$/
 __touchline	touchwin.c	/^__touchline(win, y, sx, ex, force)$/
 __touchwin	touchwin.c	/^__touchwin(win)$/
-__tscroll	tscroll.c	/^__tscroll(cap, n)$/
+__tscroll	tscroll.c	/^__tscroll(cap, n1, n2)$/
 __waddbytes	addbytes.c	/^__waddbytes(win, bytes, count, so)$/
 __waddch	addch.c	/^__waddch(win, dp)$/
 __winwrite	printw.c	/^__winwrite(cookie, buf, n)$/

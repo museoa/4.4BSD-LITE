@@ -93,8 +93,8 @@ these characters may be included in a single argument by enclosing the
 entire argument in double-quotes.
 A double-quote can be included by preceding it with a backslash.
 Lines beginning with `#' are ignored.
+.ne 1i
 The format of each line in the \fI\&.maildelivery\fR file is:
-
 
 	\fBheader	pattern	action	result	string\fR
 .sp
@@ -199,7 +199,7 @@ If the action succeeds, then the message is considered delivered.
 \fIR\fR	Perform the action.
 Regardless of the outcome of the action,
 the message is not considered delivered.
-
+.ne 1i
 .ti -1i
 \fI?\fR	Perform
 the action only if the message has not been delivered.
@@ -279,7 +279,7 @@ The exit status of the process is consulted in determining the success of the
 action.
 An exit status of zero means that the action succeeded.
 Any other exit status (or abnormal termination) means that the action failed.
-
+.ne 1i
 In order to avoid any time limitations,
 you might implement a process that began by \fIforking\fR.
 The parent would return the appropriate value immediately,

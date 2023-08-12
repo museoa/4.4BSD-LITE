@@ -37,7 +37,7 @@
  *
  * from: Utah $Hdr: machdep.c 1.74 92/12/20$
  *
- *	@(#)machdep.c	8.10 (Berkeley) 4/20/94
+ *	@(#)machdep.c	8.15 (Berkeley) 5/26/95
  */
 
 #include <sys/param.h>
@@ -77,6 +77,7 @@
 #include <net/netisr.h>
 
 #define	MAXMEM	64*1024*CLSIZE	/* XXX - from cmap.h */
+#include <vm/vm_extern.h>
 #include <vm/vm_kern.h>
 
 /* the following is used externally (sysctl_hw) */
@@ -704,7 +705,7 @@ void
 sendsig(catcher, sig, mask, code)
 	sig_t catcher;
 	int sig, mask;
-	unsigned code;
+	u_long code;
 {
 	register struct proc *p = curproc;
 	register struct sigframe *fp, *kfp;
@@ -739,7 +740,7 @@ sendsig(catcher, sig, mask, code)
 	} else
 		fp = (struct sigframe *)(frame->f_regs[SP] - fsize);
 	if ((unsigned)fp <= USRSTACK - ctob(p->p_vmspace->vm_ssize)) 
-		(void)grow(p, (unsigned)fp);
+		(void)grow(p, (vm_offset_t)fp);
 #ifdef DEBUG
 	if ((sigdebug & SDB_KSTACK) && p->p_pid == sigpid)
 		printf("sendsig(%d): sig %d ssp %x usp %x scp %x ft %d\n",
@@ -1062,6 +1063,8 @@ int	waittime = -1;
 boot(howto)
 	register int howto;
 {
+	struct proc *p = curproc;	/* XXX */
+
 	/* take a snap shot before clobbering any registers */
 	if (curproc && curproc->p_addr)
 		savectx(curproc->p_addr, 0);
@@ -1085,7 +1088,12 @@ boot(howto)
 		vnshutdown();
 #endif
 #endif
-		sync(&proc0, (void *)NULL, (int *)NULL);
+		sync(p, (void *)NULL, (int *)NULL);
+		/*
+		 * Unmount filesystems
+		 */
+		if (panicstr == 0)
+			vfs_unmountall();
 
 		for (iter = 0; iter < 20; iter++) {
 			nbusy = 0;
@@ -1630,4 +1638,44 @@ badkstack(oflow, fr)
 	regdump(&fr, 0);
 	panic(oflow ? oflowmsg : uflowmsg);
 }
-#endif
+
+/*
+ * print a primitive backtrace for the requested process.
+ */
+backtrace(p)
+	struct proc *p;
+{
+	long fix, arg, pc, *lfp;
+	caddr_t fp;
+	char *fmt;
+	int i;
+
+	if (p != curproc) {
+		pc = *((long *)(p->p_addr->u_pcb.pcb_regs[11] + fix));
+		fp = (caddr_t)p->p_addr->u_pcb.pcb_regs[10];
+		fix = ((caddr_t)p->p_addr - kstack);
+	} else {
+		/*
+		 * Have to grab current frame pointer; start with function
+		 * that called backtrace.
+		 */
+		asm("movl a6, %0" : "=r" (fp));
+		lfp = (long *)fp;
+		pc = lfp[1];
+		fp = (caddr_t)lfp[0];
+		fix = 0;
+	}
+
+	printf("Process %s\n", p->p_comm);
+	while (fp > kstack) {
+		fp += fix;
+		if (kernacc(fp, 6 * sizeof(*lfp), B_READ) == 0)
+			return;
+		lfp = (long *)fp;
+		printf("Function: 0x%x(0x%x, 0x%x, 0x%x, 0x%x)\n",
+		    pc, lfp[2], lfp[3], lfp[4], lfp[5]);
+		pc = lfp[1];
+		fp = (caddr_t)lfp[0];
+	}
+}
+#endif /* DEBUG */

@@ -81,7 +81,6 @@ MHPATH(1)              BSD Reference Manual             MHPATH(1)
             % mhpath last new
             /r/phyl/Mail/foo/6
             /r/phyl/Mail/foo/7
-
             % mhpath last-new
             bad message list "last-new".
 
@@ -120,7 +119,8 @@ DDEEFFAAUULLTTSS
        `+folder' defaults to the current folder
        `msgs' defaults to none
 
-
+CCOONNTTEEXXTT
+       None
 
 
 
@@ -136,9 +136,6 @@ DDEEFFAAUULLTTSS
 MHPATH(1)              BSD Reference Manual             MHPATH(1)
 
 
-CCOONNTTEEXXTT
-       None
-
 BBUUGGSS
        Like all MH commands, _m_h_p_a_t_h expands and sorts [msgs].  So
        don't expect
@@ -153,6 +150,9 @@ BBUUGGSS
 
        Out of range message 0 is treated far more  severely  than
        large out of range message numbers.
+
+
+
 
 
 

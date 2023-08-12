@@ -1,1 +1,1 @@
-char *version = "@(#)MH 6.8.3 #5[UCI] (vangogh.CS.Berkeley.EDU) of Thu Apr 21 20:02:02 PDT 1994";
+char *version = "@(#)MH 6.8.3 #21[UCI] (vangogh.CS.Berkeley.EDU) of Thu May 11 00:48:51 PDT 1995";

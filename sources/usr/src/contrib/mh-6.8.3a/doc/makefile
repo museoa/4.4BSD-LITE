@@ -12,7 +12,4 @@ inst-all:
 manpages:
 	make -f Makefile
 
-paper.ps: manpages
-	${ROFF} ${SRCS} > ${.TARGET}
-
 .include <bsd.doc.mk>

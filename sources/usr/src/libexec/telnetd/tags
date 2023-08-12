@@ -1,5 +1,5 @@
-ADD	state.c	/^#define	ADD(c)	 *ncp++ = c;$/
-ADD_DATA	state.c	/^#define	ADD_DATA(c) { *ncp++ = c; if (c == SE) *nc/
+ADD	state.c	/^#define	ADD(c)	 *ncp++ = c$/
+ADD_DATA	state.c	/^#define	ADD_DATA(c) { *ncp++ = c; if (c == SE || c/
 Mtelnetd	telnetd.c	/^main(argc, argv)$/
 SB_ACCUM	state.c	/^#define	SB_ACCUM(c)	if (subpointer < (subbuffer+si/
 SB_CLEAR	state.c	/^#define	SB_CLEAR()	subpointer = subbuffer$/
@@ -48,6 +48,7 @@ getterminaltype	telnetd.c	/^getterminaltype(name)$/
 init_env	sys_term.c	/^init_env()$/
 init_termbuf	sys_term.c	/^init_termbuf()$/
 interrupt	telnetd.c	/^interrupt()$/
+jid_getutid	sys_term.c	/^jid_getutid(jid)$/
 jobend	sys_term.c	/^jobend(jid, path, user)$/
 localstat	termstat.c	/^localstat()$/
 login_tty	sys_term.c	/^login_tty(t)$/

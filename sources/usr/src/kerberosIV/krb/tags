@@ -2,6 +2,7 @@ FreeParameterSet	kparse.c	/^void FreeParameterSet(parm,parmcount)$/
 Mkparse	kparse.c	/^main(argc,argv)$/
 ParmCompare	kparse.c	/^int ParmCompare( parm, parmcount, keyword, value )/
 ad_print	util.c	/^ad_print(x)$/
+check_multihome	rd_req.c	/^check_multihome(from_addr, tkt_addr)$/
 check_ptr	rd_req.c	/^#define check_ptr() if ((ptr - (char *) req_id->da/
 cr_err_reply	cr_err_reply.c	/^cr_err_reply(pkt,pname,pinst,prealm,time_ws,e,e_st/
 create_auth_reply	create_auth_reply.c	/^create_auth_reply(pname,pinst,prealm,time_ws,n,x_d/

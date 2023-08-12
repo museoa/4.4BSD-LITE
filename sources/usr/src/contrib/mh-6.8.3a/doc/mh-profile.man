@@ -90,7 +90,6 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
                  public sequences, leave  the  value  portion  of
                  this    entry    blank.     (profile,   default:
                  .mh_sequences)
-
        atr-_s_e_q-_f_o_l_d_e_r: 172 178-181 212
                  Keeps track of the private sequence  called  _s_e_q
                  in the specified folder.  (context, no default)
@@ -121,6 +120,7 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
        _l_a_s_t_e_d_i_t_o_r-next: nexteditor
                  Names "nexteditor"  to  be  the  default  editor
                  after  using "lasteditor".  This takes effect at
+                 "What now?" level in _c_o_m_p, _d_i_s_t, _f_o_r_w, and _r_e_p_l.
 
 
 
@@ -136,7 +136,6 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
 MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
 
 
-                 "What now?" level in _c_o_m_p, _d_i_s_t, _f_o_r_w, and _r_e_p_l.
                  After  editing  the draft with "lasteditor", the
                  default editor is set to  be  "nexteditor".   If
                  the  user  types "edit" without any arguments to
@@ -187,6 +186,7 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
                  Tells  _f_o_r_w  the  last  issue of the last volume
                  sent for the digest _l_i_s_t.  (context, no default)
 
+       digest-volume-_l_i_s_t: 1
 
 
 
@@ -202,7 +202,6 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
 MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
 
 
-       digest-volume-_l_i_s_t: 1
                  Tells  _f_o_r_w  the last volume sent for the digest
                  _l_i_s_t.  (context, no default)
 
@@ -253,6 +252,7 @@ MH-PROFILE(5)        BSD Programmer's Manual        MH-PROFILE(5)
        from the current working directory.  This is  one  of  the
        very few exceptions in _M_H where non-absolute pathnames are
        not considered relative to the user's _M_H directory.
+
 
 
 

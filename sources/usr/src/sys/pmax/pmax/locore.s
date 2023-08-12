@@ -48,7 +48,7 @@
  * from: $Header: /sprite/src/kernel/vm/ds3100.md/vmPmaxAsm.s,
  *	v 1.1 89/07/10 14:27:41 nelson Exp $ SPRITE (DECWRL)
  *
- *	@(#)locore.s	8.5 (Berkeley) 1/4/94
+ *	@(#)locore.s	8.7 (Berkeley) 6/2/95
  */
 
 /*
@@ -902,6 +902,14 @@ NON_LEAF(cpu_switch, STAND_FRAME_SIZE, ra)
 	subu	sp, sp, STAND_FRAME_SIZE
 	sw	ra, STAND_RA_OFFSET(sp)
 	.mask	0x80000000, (STAND_RA_OFFSET - STAND_FRAME_SIZE)
+#ifdef DEBUG
+	lw	a1, intr_level
+	sw	a0, STAND_FRAME_SIZE(sp)
+	beq	a1, zero, 1f
+	nop
+	PANIC("cpu_switch: intr_level %d")	# can't sleep in interrupt()
+1:
+#endif
 	lw	t2, cnt+V_SWTCH			# for statistics
 	lw	t1, whichqs			# look for non-empty queue
 	sw	s0, UADDR+U_PCB_CONTEXT+0	# do a 'savectx()'
@@ -1845,37 +1853,57 @@ END(MachTLBMissException)
  */
 
 LEAF(setsoftclock)
+	mfc0	v1, MACH_COP_0_STATUS_REG	# save status register
+	mtc0	zero, MACH_COP_0_STATUS_REG	# disable interrupts (2 cycles)
+	nop
+	nop
 	mfc0	v0, MACH_COP_0_CAUSE_REG	# read cause register
 	nop
 	or	v0, v0, MACH_SOFT_INT_MASK_0	# set soft clock interrupt
 	mtc0	v0, MACH_COP_0_CAUSE_REG	# save it
+	mtc0	v1, MACH_COP_0_STATUS_REG
 	j	ra
 	nop
 END(setsoftclock)
 
 LEAF(clearsoftclock)
+	mfc0	v1, MACH_COP_0_STATUS_REG	# save status register
+	mtc0	zero, MACH_COP_0_STATUS_REG	# disable interrupts (2 cycles)
+	nop
+	nop
 	mfc0	v0, MACH_COP_0_CAUSE_REG	# read cause register
 	nop
 	and	v0, v0, ~MACH_SOFT_INT_MASK_0	# clear soft clock interrupt
 	mtc0	v0, MACH_COP_0_CAUSE_REG	# save it
+	mtc0	v1, MACH_COP_0_STATUS_REG
 	j	ra
 	nop
 END(clearsoftclock)
 
 LEAF(setsoftnet)
+	mfc0	v1, MACH_COP_0_STATUS_REG	# save status register
+	mtc0	zero, MACH_COP_0_STATUS_REG	# disable interrupts (2 cycles)
+	nop
+	nop
 	mfc0	v0, MACH_COP_0_CAUSE_REG	# read cause register
 	nop
 	or	v0, v0, MACH_SOFT_INT_MASK_1	# set soft net interrupt
 	mtc0	v0, MACH_COP_0_CAUSE_REG	# save it
+	mtc0	v1, MACH_COP_0_STATUS_REG
 	j	ra
 	nop
 END(setsoftnet)
 
 LEAF(clearsoftnet)
+	mfc0	v1, MACH_COP_0_STATUS_REG	# save status register
+	mtc0	zero, MACH_COP_0_STATUS_REG	# disable interrupts (2 cycles)
+	nop
+	nop
 	mfc0	v0, MACH_COP_0_CAUSE_REG	# read cause register
 	nop
 	and	v0, v0, ~MACH_SOFT_INT_MASK_1	# clear soft net interrupt
 	mtc0	v0, MACH_COP_0_CAUSE_REG	# save it
+	mtc0	v1, MACH_COP_0_STATUS_REG
 	j	ra
 	nop
 END(clearsoftnet)
@@ -3109,18 +3137,18 @@ END(cpu_getregs)
 	.data
 	.globl	intrcnt, eintrcnt, intrnames, eintrnames
 intrnames:
-	.asciiz	"spur"
-	.asciiz	"hil"
-	.asciiz	"lev2"
-	.asciiz	"lev3"
-	.asciiz	"lev4"
-	.asciiz	"lev5"
-	.asciiz	"dma"
+	.asciiz	"softclock"
+	.asciiz	"softnet"
+	.asciiz	"dc"
+	.asciiz	"ether"
+	.asciiz	"disk"
+	.asciiz	"memory"
 	.asciiz	"clock"
-	.asciiz	"statclock"
-	.asciiz	"nmi"
+	.asciiz	"fp"
 eintrnames:
 	.align	2
 intrcnt:
-	.word	0,0,0,0,0,0,0,0,0,0
+	.word	0,0,0,0,0,0,0,0
 eintrcnt:
+	.word	0	# This shouldn't be needed but the eintrcnt label
+			# ends up in a different section otherwise.

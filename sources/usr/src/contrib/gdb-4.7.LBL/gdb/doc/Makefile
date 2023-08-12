@@ -143,8 +143,8 @@ de-stage3: force
 	-rmdir stage3
 
 clean:
-	rm -f gdb.dvi rluser.texinfo inc-hist.texi gdb-all* gdb.info* gdbVN.m4
-	rm -f gdb-internals gdbint.?? gdbint.??? gdbint.info
+	rm -f gdb.dvi rluser.texinfo inc-hist.texi gdb-all.texi gdb.info*
+	rm -f gdb-internals gdbint.?? gdbint.??? gdbint.info gdbVN.m4
 	rm -f refcard.ps refcard.dvi refcard.log *~
 
 # GDB QUICK REFERENCE (TeX dvi file, CM fonts)

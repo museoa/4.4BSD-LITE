@@ -177,6 +177,8 @@ mhn-show-<type>/<subtype>
 .in -.5i
 .sp
 to determine the command to use to display the content.
+.br
+.ne 1i
 If this isn't found,
 \fImhn\fR will look for an entry of the form:
 .sp
@@ -720,7 +722,7 @@ These look like regular parameters,
 .ne 15
 so they must be separated accordingly,
 e.g.,
-.sp
+.sp .5
 .nf
 .in +.5i
 #@application/octet-stream; \\
@@ -732,13 +734,13 @@ e.g.,
     site="ftp.ics.uci.edu"
 .in -.5i
 .fi
-.sp
+.sp .5
 By specifying \*(lq[]\*(rq,
 an empty description string is given,
 and the start of the external-parameters is identified.
 .ne 19
 These parameters are of the form:
-.sp
+.sp .5
 .nf
 .in +.5i
 .ta \w'access-type=  'u
@@ -755,8 +757,7 @@ body=	command to send for retrieval
 .re
 .in -.5i
 .fi
-.sp
-
+.sp .5
 For the forw directive,
 the user may optionally specify the name of the folder and which
 messages are to be forwarded.
@@ -984,13 +985,13 @@ If the first argument given to \fIviamail\fR starts with a dash,
 then it is interpreted as the number of seconds to pause in between postings,
 .ne 6
 e.g.,
-.sp
+.sp .5
 .in +.5i
 /usr/contrib/mh-6.8/lib/viamail -300 mailpath \*(lqsubject\*(rq files\0...
 .in -.5i
-.sp
+.sp .5
 will pause 5 minutes in between each posting.
-
+.sp .5
 When these messages are received,
 invoke \fImhn\fR once,
 with the list of messages,
@@ -1001,7 +1002,7 @@ You can then use `\-show' to find out what's inside;
 possibly  followed by `\-store' to write the archive to a file where you
 .ne 26
 can subsequently uncompress and untar it, e.g.,
-.sp
+.sp .5
 .nf
 .in +.5i
 % mhn -list all
@@ -1025,13 +1026,12 @@ can subsequently uncompress and untar it, e.g.,
 % uncompress < 5.tar.Z | tar xvpf -
 .in -.5i
 .fi
-.sp
+.sp .5
 Alternately,
 by using the `\-auto' switch,
 \fImhn\fR will automatically do the extraction for you,
-.ne 26
 e.g.,
-.sp
+.sp .5
 .nf
 .in +.5i
 % mhn -list all
@@ -1055,7 +1055,7 @@ e.g.,
 -- \fItar\fR listing appears here as files are extracted
 .in -.5i
 .fi
-.sp
+.sp .5
 As the second \fItar\fR listing is generated,
 the files are extracted.
 A prudent user will never put `\-auto' in the \&.mh\(ruprofile file.

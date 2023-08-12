@@ -196,7 +196,7 @@ sourceroute	commands.c	/^sourceroute(arg, cpp, lenp)$/
 special	commands.c	/^special(s)$/
 status	commands.c	/^status(argc, argv)$/
 stilloob	network.c	/^stilloob()$/
-strip	telnet.c	/^#define	strip(x)	((x)&0x7f)$/
+strip	telnet.c	/^#define	strip(x) ((my_want_state_is_wont(TELOPT_BI/
 suboption	telnet.c	/^suboption()$/
 susp	sys_bsd.c	/^susp(sig)$/
 suspend	commands.c	/^suspend()$/

@@ -9,7 +9,9 @@ checkremote	../common_source/common.c	/^checkremote()$/
 chk	../common_source/rmjob.c	/^chk(file)$/
 chkhost	lpd.c	/^chkhost(f)$/
 chksize	recvjob.c	/^chksize(size)$/
+ckqueue	lpd.c	/^ckqueue(cap)$/
 compar	../common_source/common.c	/^compar(p1, p2)$/
+delay	../common_source/common.c	/^delay(n)$/
 displayq	../common_source/displayq.c	/^displayq(format)$/
 dofork	printjob.c	/^dofork(action)$/
 doit	lpd.c	/^doit()$/
@@ -18,7 +20,7 @@ dump	../common_source/displayq.c	/^dump(nfile, file, copies)$/
 fatal	../common_source/common.c	/^fatal(msg, va_alist)$/
 frecverr	recvjob.c	/^frecverr(msg, va_alist)$/
 getline	../common_source/common.c	/^getline(cfp)$/
-getport	../common_source/common.c	/^getport(rhost)$/
+getport	../common_source/common.c	/^getport(rhost, rport)$/
 getq	../common_source/common.c	/^getq(namelist)$/
 header	../common_source/displayq.c	/^header()$/
 inform	../common_source/displayq.c	/^inform(cf)$/
@@ -31,7 +33,10 @@ lockchk	../common_source/rmjob.c	/^lockchk(s)$/
 mask	lpd.c	/^#define	mask(s)	(1 << ((s) - 1))$/
 mcleanup	lpd.c	/^mcleanup(signo)$/
 noresponse	recvjob.c	/^noresponse()$/
+opennet	printjob.c	/^opennet(cp)$/
 openpr	printjob.c	/^openpr()$/
+openrem	printjob.c	/^openrem()$/
+opentty	printjob.c	/^opentty()$/
 perr	../common_source/startdaemon.c	/^perr(msg)$/
 prank	../common_source/displayq.c	/^prank(n)$/
 print	printjob.c	/^print(format, file)$/

@@ -1,6 +1,6 @@
 Mktrace	ktrace.c	/^main(argc, argv)$/
-error	ktrace.c	/^error(name)$/
 getpoints	subr.c	/^getpoints(s)$/
+no_ktrace	ktrace.c	/^no_ktrace(sig)$/
 rpid	ktrace.c	/^rpid(p)$/
 timevaladd	subr.c	/^timevaladd(t1, t2)$/
 timevalfix	subr.c	/^timevalfix(t1)$/

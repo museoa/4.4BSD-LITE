@@ -37,7 +37,7 @@
  *
  * from: Utah $Hdr: trap.c 1.37 92/12/20$
  *
- *	@(#)trap.c	8.5 (Berkeley) 1/4/94
+ *	@(#)trap.c	8.7 (Berkeley) 2/19/95
  */
 
 #include <sys/param.h>
@@ -262,18 +262,33 @@ copyfault:
 		i = SIGBUS;
 		break;
 
+#ifdef HP380
+	case T_ADDRERR:
+		/*
+		 * Yow!  Looks like we get a kernel exception if the PC
+		 * in the RTE frame is odd on a 68040 (not on a 68030).
+		 * It comes through as a user exception for access faults
+		 * (T_MMUFLT).
+		 */
+		if (*(short *)frame.f_pc != 0x4e73)
+			goto dopanic;
+		/* fall through */
+#endif
+
 #ifdef FPCOPROC
 	case T_COPERR:		/* kernel coprocessor violation */
 #endif
 	case T_FMTERR|T_USER:	/* do all RTE errors come in as T_USER? */
 	case T_FMTERR:		/* ...just in case... */
-	/*
-	 * The user has most likely trashed the RTE or FP state info
-	 * in the stack frame of a signal handler.
-	 */
+		/*
+		 * The user has most likely trashed the RTE or FP state info
+		 * in the stack frame of a signal handler.
+		 */
 		type |= T_USER;
 		printf("pid %d: kernel %s exception\n", p->p_pid,
-		       type==T_COPERR ? "coprocessor" : "format");
+		       (type==T_COPERR|T_USER) ? "coprocessor" :
+		       (type==T_ADDRERR|T_USER) ? "RTE address" :
+		       "RTE format");
 		p->p_sigacts->ps_sigact[SIGILL] = SIG_DFL;
 		i = sigmask(SIGILL);
 		p->p_sigignore &= ~i;
@@ -939,24 +954,24 @@ syscall(code, frame)
 		callp += code;
 	else
 		callp += SYS_syscall;	/* => nosys */
-	argsize = callp->sy_narg * sizeof(int);
+	argsize = callp->sy_argsize;
 	if (argsize && (error = copyin(params, (caddr_t)&args, argsize))) {
 #ifdef KTRACE
 		if (KTRPOINT(p, KTR_SYSCALL))
-			ktrsyscall(p->p_tracep, code, callp->sy_narg, args.i);
+			ktrsyscall(p->p_tracep, code, argsize, args.i);
 #endif
 		goto bad;
 	}
 #ifdef KTRACE
 	if (KTRPOINT(p, KTR_SYSCALL))
-		ktrsyscall(p->p_tracep, code, callp->sy_narg, args.i);
+		ktrsyscall(p->p_tracep, code, argsize, args.i);
 #endif
 	rval[0] = 0;
 	rval[1] = frame.f_regs[D1];
 #ifdef HPUXCOMPAT
 	/* debug kludge */
 	if (callp->sy_call == notimp)
-		error = notimp(p, args.i, rval, code, callp->sy_narg);
+		error = notimp(p, args.i, rval, code, argsize);
 	else
 #endif
 		error = (*callp->sy_call)(p, &args, rval);

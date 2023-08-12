@@ -53,7 +53,6 @@
 .\"
 .\"	@(#)named.boot.secondary	6.4 (Berkeley) 9/19/89
 .\"
-.ne 12v
 .sh 4 "Secondary Server"
 .(b L
 .TS

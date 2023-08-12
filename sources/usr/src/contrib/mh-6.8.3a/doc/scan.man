@@ -88,11 +88,9 @@ SCAN(1)                BSD Reference Manual               SCAN(1)
        permits individual  fields  of  the  scan  listing  to  be
        extracted with ease.  The string is simply a format string
        and the file is simply a format file.   See  _m_h_-_f_o_r_m_a_t (5)
-       for the details.
-
-       In  addition  to  the standard _m_h_-_f_o_r_m_a_t (5) escapes, _s_c_a_n
-       also  recognizes  the   following   additional   _c_o_m_p_o_n_e_n_t
-       escapes:
+       for   the   details.    In   addition   to   the  standard
+       _m_h_-_f_o_r_m_a_t (5) escapes, _s_c_a_n also recognizes the  following
+       additional _c_o_m_p_o_n_e_n_t escapes:
 
        _E_s_c_a_p_e    _R_e_t_u_r_n_s  _D_e_s_c_r_i_p_t_i_o_n
        body      string   the (compressed) first part of the body
@@ -121,6 +119,8 @@ SSEEEE AALLSSOO
 
 DDEEFFAAUULLTTSS
        `+folder' defaults to the folder current
+       `msgs' defaults to all
+       `-format' defaulted as described above
 
 
 
@@ -136,8 +136,6 @@ DDEEFFAAUULLTTSS
 SCAN(1)                BSD Reference Manual               SCAN(1)
 
 
-       `msgs' defaults to all
-       `-format' defaulted as described above
        `-noheader'
        `-width' defaulted to the width of the terminal
 
@@ -167,6 +165,8 @@ BBUUGGSS
        This listing includes every message in the file.  The user
        should use _m_s_h for more selective processing of the  file.
        `-reverse' is ignored with this option.
+
+
 
 
 

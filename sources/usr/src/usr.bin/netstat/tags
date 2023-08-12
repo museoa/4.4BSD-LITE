@@ -8,7 +8,9 @@ SSEL	iso.c	/^#define SSEL(s) ((s)->siso_tlen + TSEL(s))$/
 catchalarm	if.c	/^catchalarm(signo)$/
 clnp_stats	iso.c	/^clnp_stats(off, name)$/
 cltp_stats	iso.c	/^cltp_stats(off, name)$/
+domask	route.c	/^domask(dst, addr, mask)$/
 esis_stats	iso.c	/^esis_stats(off, name)$/
+forgemask	route.c	/^forgemask(a)$/
 hexprint	iso.c	/^hexprint(n, buf, delim)$/
 icmp_stats	inet.c	/^icmp_stats(off, name)$/
 idp_stats	ns.c	/^idp_stats(off, name)$/
@@ -40,10 +42,11 @@ nsprotopr	ns.c	/^nsprotopr(off, name)$/
 ntreestuff	route.c	/^ntreestuff()$/
 p	inet.c	/^#define	p(f, m) if (tcpstat.f || sflag <= 1) \\$/
 p2	inet.c	/^#define	p2(f1, f2, m) if (tcpstat.f1 || tcpstat.f2/
+p3	inet.c	/^#define	p3(f, m) if (tcpstat.f || sflag <= 1) \\$/
 p_flags	route.c	/^p_flags(f, format)$/
 p_rtentry	route.c	/^p_rtentry(rt)$/
 p_rtnode	route.c	/^p_rtnode()$/
-p_sockaddr	route.c	/^p_sockaddr(sa, flags, width)$/
+p_sockaddr	route.c	/^p_sockaddr(sa, mask, flags, width)$/
 p_tree	route.c	/^p_tree(rn)$/
 plural	main.c	/^plural(n)$/
 plurales	main.c	/^plurales(n)$/

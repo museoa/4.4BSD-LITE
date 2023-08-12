@@ -37,7 +37,7 @@
  *
  * from: Utah $Hdr: rd.c 1.44 92/12/26$
  *
- *	@(#)rd.c	8.1 (Berkeley) 6/10/93
+ *	@(#)rd.c	8.5 (Berkeley) 5/14/95
  */
 
 /*
@@ -62,10 +62,7 @@
 #include <hp300/hp300/led.h>
 #endif
 
-#include <vm/vm_param.h>
-#include <vm/lock.h>
-#include <vm/vm_prot.h>
-#include <vm/pmap.h>
+#include <vm/vm.h>
 
 int	rdinit(), rdstart(), rdgo(), rdintr();
 void	rdstrategy();
@@ -389,6 +386,9 @@ rdgetinfo(dev)
 #else
 	printf("defining `c' partition as entire disk\n");
 	pi[2].p_size = rdidentinfo[rs->sc_type].ri_nblocks;
+	/* XXX reset other info since readdisklabel screws with it */
+	lp->d_npartitions = 3;
+	pi[0].p_size = 0;
 #endif
 	return(0);
 }
@@ -929,7 +929,7 @@ rdwrite(dev, uio, flags)
 int
 rdioctl(dev, cmd, data, flag, p)
 	dev_t dev;
-	int cmd;
+	u_long cmd;
 	caddr_t data;
 	int flag;
 	struct proc *p;

@@ -77,7 +77,6 @@ MH-SEQUENCE(5)       BSD Programmer's Manual       MH-SEQUENCE(5)
        have the same effect as a single specification of the mes-
        sage.
 
-
    UUsseerr--DDeeffiinneedd MMeessssaaggee SSeeqquueenncceess
        In addition to the "reserved" (pre-defined) message  names
        given  above,  _M_H  supports  user-defined  sequence names.
@@ -121,6 +120,7 @@ MH-SEQUENCE(5)       BSD Programmer's Manual       MH-SEQUENCE(5)
        sequences  are accessible only to the _M_H user that defined
        those sequences and are kept  in  the  user's  _M_H  context
        file.   By  default, _p_i_c_k and _m_a_r_k create _p_u_b_l_i_c sequences
+       if the folder for which the sequences are being defined is
 
 
 
@@ -136,7 +136,6 @@ MH-SEQUENCE(5)       BSD Programmer's Manual       MH-SEQUENCE(5)
 MH-SEQUENCE(5)       BSD Programmer's Manual       MH-SEQUENCE(5)
 
 
-       if the folder for which the sequences are being defined is
        writable by the _M_H user.  Otherwise, _p_r_i_v_a_t_e sequences are
        created.  This can be overridden with  the  `-public'  and
        `-private' switches to _m_a_r_k.
@@ -185,6 +184,7 @@ MH-SEQUENCE(5)       BSD Programmer's Manual       MH-SEQUENCE(5)
        .mh_sequences file for the folder each time they run.   If
        the  "Previous-Sequence"  profile  entry  is not included,
        only _p_i_c_k and _m_a_r_k will write to the .mh_sequences file.
+
 
 
 

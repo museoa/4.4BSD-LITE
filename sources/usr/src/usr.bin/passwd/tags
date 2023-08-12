@@ -8,6 +8,7 @@ finish	krb_passwd.c	/^finish()$/
 getnewpasswd	local_passwd.c	/^getnewpasswd(pw)$/
 krb_passwd	krb_passwd.c	/^krb_passwd()$/
 local_passwd	local_passwd.c	/^local_passwd(uname)$/
+pw_cont	../../usr.sbin/vipw/pw_util.c	/^pw_cont(sig)$/
 pw_copy	../../usr.bin/chpass/pw_copy.c	/^pw_copy(ffd, tfd, pw)$/
 pw_edit	../../usr.sbin/vipw/pw_util.c	/^pw_edit(notsetuid)$/
 pw_error	../../usr.sbin/vipw/pw_util.c	/^pw_error(name, err, eval)$/

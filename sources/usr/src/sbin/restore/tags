@@ -5,6 +5,7 @@ accthdr	tape.c	/^accthdr(header)$/
 addentry	symtab.c	/^addentry(name, inum, type)$/
 addfile	restore.c	/^addfile(name, ino, type)$/
 addino	symtab.c	/^addino(inum, np)$/
+addwhiteout	utilities.c	/^addwhiteout(name)$/
 allocinotab	dirs.c	/^allocinotab(ino, dip, seekpt)$/
 allocsize	symtab.c	/^#define allocsize(size)	(((size) + 1 + STRTBLINCR /
 badentry	utilities.c	/^badentry(ep, msg)$/
@@ -19,6 +20,7 @@ createlinks	restore.c	/^createlinks()$/
 dcvt	dirs.c	/^dcvt(odp, ndp)$/
 deletefile	restore.c	/^deletefile(name, ino, type)$/
 deleteino	symtab.c	/^deleteino(inum)$/
+delwhiteout	utilities.c	/^delwhiteout(ep)$/
 dirlookup	utilities.c	/^dirlookup(name)$/
 done	dirs.c	/^done(exitcode)$/
 dumpsymtable	symtab.c	/^dumpsymtable(filename, checkpt)$/
@@ -51,7 +53,7 @@ lookupino	symtab.c	/^lookupino(inum)$/
 lookupname	symtab.c	/^lookupname(name)$/
 lookupparent	symtab.c	/^lookupparent(name)$/
 lowerbnd	utilities.c	/^lowerbnd(start)$/
-mkentry	interactive.c	/^mkentry(dp, fp)$/
+mkentry	interactive.c	/^mkentry(name, dp, fp)$/
 mktempname	utilities.c	/^mktempname(ep)$/
 moveentry	symtab.c	/^moveentry(ep, newname)$/
 msg	tape.c	/^msg(fmt, va_alist)$/

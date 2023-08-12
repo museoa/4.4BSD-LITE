@@ -139,7 +139,7 @@ which means \*(lqdd days ago\*(rq.
 \fIPick\fR supports complex boolean operations on the searching primitives
 with the `\-and', `\-or', `\-not', and `\-lbrace\ ...\ \-rbrace' switches.
 For example,
-
+.sp .5
 .ti +.5i
 .ie t \{\
 pick\0\-after\0yesterday\0\-and\0\-lbrace\0\-from\0freida\0\-or\0\-from\0fear\0\-rbrace
@@ -150,7 +150,7 @@ pick\0\-after\0yesterday\0\-and
 .ti +1i
 \-lbrace\0\-from\0freida\0\-or\0\-from\0fear\0\-rbrace
 .\}
-
+.sp .5
 identifies messages recently sent by \*(lqfrieda\*(rq or \*(lqfear\*(rq.
 
 The matching primitives take precedence over the `\-not' switch,
@@ -172,10 +172,10 @@ This is \fIextremely\fR useful for quickly generating arguments for other
 \fIMH\fR programs by using the \*(lqbackquoting\*(rq syntax of the shell.
 For example,
 the command
-
+.sp .5
 .ti +.5i
 scan\0`pick\0+todo\0\-after\0\*(lq31 Mar 83 0123 PST\*(rq`
-
+.sp .5
 says to \fIscan\fR those messages in the indicated folder which meet the
 appropriate criterion.
 Note that since \fIpick\fR\0's context changes are written out prior to
@@ -189,10 +189,10 @@ For each sequence named,
 that sequence will be defined to mean exactly those messages selected by
 \fIpick\fR.
 For example,
-
+.sp .5
 .ti +.5i
 pick\0\-from\0frated\0\-seq\0fred
-
+.sp .5
 defines a new message sequence for the current folder called \*(lqfred\*(rq
 which contains exactly those messages that were selected.
 

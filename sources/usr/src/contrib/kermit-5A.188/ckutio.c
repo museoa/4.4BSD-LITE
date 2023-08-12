@@ -2899,18 +2899,29 @@ ttpkt(speed,xflow,parity) long speed; int xflow, parity;
 
 #ifdef SVORPOSIX
     if (flow == FLO_XONX)		/* Xon/Xoff */
-      ttraw.c_iflag |= (IXON|IXOFF);
-    else if (flow == FLO_NONE)		/* None */
-      /* NOTE: We should also turn off hardware flow control here! */
-      ttraw.c_iflag &= ~(IXON|IXOFF);
-    else if (flow == FLO_KEEP) {	/* Keep */
+	ttraw.c_iflag |= (IXON|IXOFF);
+    else if (flow == FLO_NONE) {	/* None */
+	ttraw.c_iflag &= ~(IXON|IXOFF);
+#ifdef CCTS_OFLOW
+	ttraw.c_cflag &= ~(CCTS_OFLOW|CRTS_IFLOW|MDMBUF);
+#endif /* CCTS_OFLOW */
+    } else if (flow == FLO_KEEP) {	/* Keep */
 	ttraw.c_iflag &= ~(IXON|IXOFF);	/* Turn off Xon/Xoff flags */
 	ttraw.c_iflag |= (ttold.c_iflag & (IXON|IXOFF)); /* OR in old ones */
 	/* NOTE: We should also handle hardware flow control here! */
-    } else if (flow == FLO_RTSC ||	/* Hardware */
-	flow == FLO_DTRC ||
-	flow == FLO_DTRT)
-      tthflow(flow);
+    } else if (flow == FLO_RTSC) {
+#ifdef CCTS_OFLOW
+	ttraw.c_cflag &= ~CIGNORE;
+	ttraw.c_cflag |= (CCTS_OFLOW|CRTS_IFLOW);
+	ttraw.c_iflag &= ~(IXON|IXOFF);
+#endif /* CCTS_OFLOW */
+    } else if (flow == FLO_DTRC) {
+#ifdef MDMBUF
+	ttraw.c_cflag &= ~CIGNORE;
+	ttraw.c_cflag |= (CCTS_OFLOW|MDMBUF);
+	ttraw.c_iflag &= ~(IXON|IXOFF);
+#endif /* CCTS_OFLOW */
+    } 
 
     ttraw.c_lflag &= ~(ICANON|ECHO);
     ttraw.c_lflag &= ~ISIG;		/* Do NOT check for interrupt chars */
@@ -3034,18 +3045,33 @@ ttvt(speed,flow) long speed; int flow;
 
 #else /* It is ATTSV or POSIX */
 
-    if (flow == FLO_RTSC ||		/* Hardware flow control */
-	flow == FLO_DTRC ||
-	flow == FLO_DTRT)
-      tthflow(flow);
-    else if (flow == FLO_XONX)		/* Software flow control */
-      tttvt.c_iflag |= (IXON|IXOFF);	/* On if requested. */
-    else if (flow == FLO_KEEP) {
+    if (flow == FLO_RTSC) {		/* Hardware flow control */
+#ifdef CCTS_OFLOW
+	tttvt.c_cflag &= ~CIGNORE;
+	tttvt.c_cflag |= (CCTS_OFLOW|CRTS_IFLOW);
+	tttvt.c_iflag &= ~(IXON|IXOFF);
+#endif /* CCTS_OFLOW */
+    } else if (flow == FLO_DTRC) {
+#ifdef MDMBUF
+	tttvt.c_cflag &= ~CIGNORE;
+	tttvt.c_cflag |= (CCTS_OFLOW|MDMBUF);
+	tttvt.c_iflag &= ~(IXON|IXOFF);
+#endif /* CCTS_OFLOW */
+    } else if (flow == FLO_XONX) {	/* Software flow control */
+	tttvt.c_iflag |= (IXON|IXOFF);	/* On if requested. */
+#ifdef CCTS_OFLOW
+	tttvt.c_cflag &= ~(CCTS_OFLOW|CRTS_IFLOW|MDMBUF);
+#endif /* CCTS_OFLOW */
+    } else if (flow == FLO_KEEP) {
 	tttvt.c_iflag &= ~(IXON|IXOFF);	/* Turn off Xon/Xoff flags */
 	tttvt.c_iflag |= (ttold.c_iflag & (IXON|IXOFF)); /* OR in old ones */
 	/* NOTE: We should also handle hardware flow control here! */
-    } else if (flow == FLO_NONE)	/* Off if NONE or hardware */
-      tttvt.c_iflag &= ~(IXON|IXOFF);	/* requested. */
+    } else if (flow == FLO_NONE) {	/* Off if NONE or hardware */
+	tttvt.c_iflag &= ~(IXON|IXOFF);	/* requested. */
+#ifdef CCTS_OFLOW
+	tttvt.c_cflag &= ~(CCTS_OFLOW|CRTS_IFLOW|MDMBUF);
+#endif /* CCTS_OFLOW */
+    }
 
     tttvt.c_lflag &= ~(ISIG|ICANON|ECHO|IEXTEN);
     tttvt.c_iflag |= (IGNBRK|IGNPAR);

@@ -1636,6 +1636,7 @@ then one other response will be accepted:
 .u new :
 finds a new draft,
 just as if `\-draftmessage\0new' had been given.
+.ne 1i
 Finally, the \fIcomp\fR command will accept one more response:
 .u use :
 re-uses the draft,
@@ -1822,10 +1823,10 @@ then the UNIX pathname of the folder is interpreted relative to the user's
 Although this mechanism works fine for top\-level folders and their immediate
 sub\-folders,
 once the depth of the sub\-folder tree grows, it becomes rather unwieldly:
-
+.sp .5
 .ti +.5i
 scan\0+mh/mh.4/draft/flames
-
+.sp .5
 is a lot of typing.
 \fIMH\fR can't do anything if the current folder was \*(lq+inbox\*(rq,
 but if the current folder was, say, \*(lq+mh/mh.4/draft\*(rq,
@@ -1837,16 +1838,16 @@ argument to look for the folder relative to the current folder instead of the
 user's \fIMH\fR directory.
 Hence, if the current folder \fIwas\fR \*(lq+mh/mh.4/draft\*(rq,
 then
-
+.sp .5
 .ti +.5i
 scan\0@flames
-
+.sp .5
 would do the trick handily.
 In addition, if the current folder \fIwas\fR \*(lq+mh/mh.4/draft\*(rq,
-
+.sp .5
 .ti +.5i
 scan\0@../pick
-
+.sp .5
 would scan the folder \*(lq+mh/mh.4/pick\*(rq,
 since, in the UNIX fashion,
 it references the folder \*(lqpick\*(rq which is a sub\-folder of
@@ -1860,32 +1861,32 @@ this convention should receive a wide range of uses.
 The \fIfolder\-stack\fR mechanism in \fIMH\fR gives the \fIMH\fR user a
 facility similar to the \fICShell\fR\0's directory\-stack.
 Simply put,
-
+.sp .5
 .ti +.5i
 folder\0\-push\0+foo
-
+.sp .5
 makes \*(lqfoo\*(rq the current folder,
 saving the folder that was previously the current folder on the
 \fIfolder\-stack\fR.
 As expected,
-
+.sp .5
 .ti +.5i
 folder\0\-pop
-
+.sp .5
 takes the top of the \fIfolder\-stack\fR and makes it the current folder.
 Each of these switches lists the \fIfolder\-stack\fR when they execute.
 It is simple to write a \fIpushf\fR command as a shell script.
 It's one line:
-
+.sp .5
 .ti +.5i
 exec\0folder\0\-push\0$@
-
+.sp .5
 Probably a better way is to link \fIfolder\fR to the $HOME/bin/ directory under
 the name of \fIpushf\fR and then add the entry
-
+.sp .5
 .ti +.5i
 pushf:\0\-push
-
+.sp .5
 to the \&.mh\(ruprofile.
 .pp
 The manual page for \fIfolder\fR discusses the analogy between the
@@ -2080,6 +2081,7 @@ discussing code changes to \fIMH\fP.  \fBMH-Users\fP is for general
 discussion about how to use \fIMH\fP.
 \fBMH\-Users\fR is bi-directionally 
 gatewayed into USENET as \fBcomp.mail.mh\fR.
+.sp
 .lp
 .b "HOW TO GET MH"
 .pp
@@ -2109,7 +2111,7 @@ must be drawn on U.S\&. funds and should be made payable to:
 
 .ti +1i
 Regents of the University of California
-
+.ne 1i
 The distribution address is:  
 
 .nf
@@ -2119,7 +2121,6 @@ Attn: MH distribution
 Department of Information and Computer Science
 University of California, Irvine
 Irvine, CA  92717
-
 714/856-7554
 .fi
 .in -1i
@@ -2317,8 +2318,6 @@ duplicates the facilities of the supporting operating system.
 It also allows users familiar with the shell to use \fIMH\fR with minimal
 effort.
 .he ''''
-.eh 'USD:8-%''The RAND Message Handling System: User Manual'
-.oh 'The RAND Message Handling System: User Manual''USD:8-%'
 .fo ''''
 .bp
 .ce

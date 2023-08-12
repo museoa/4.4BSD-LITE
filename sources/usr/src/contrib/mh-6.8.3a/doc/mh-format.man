@@ -178,7 +178,6 @@ MH-FORMAT(5)         BSD Programmer's Manual         MH-FORMAT(5)
        reads  the current value of either _n_u_m or _s_t_r as appropri-
        ate.
 
-
    RReettuurrnn vvaalluueess
        Component escapes write the value of their message  header
        in  _s_t_r.  Function escapes write their return value in _n_u_m
@@ -187,6 +186,7 @@ MH-FORMAT(5)         BSD Programmer's Manual         MH-FORMAT(5)
        type is a subset of integers with usual values 0=false and
        1=true.)   Control escapes return a _b_o_o_l_e_a_n value, and set
        _n_u_m.
+
 
 
 

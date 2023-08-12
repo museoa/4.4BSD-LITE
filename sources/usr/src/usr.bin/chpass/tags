@@ -14,6 +14,7 @@ p_login	field.c	/^p_login(p, pw, ep)$/
 p_passwd	field.c	/^p_passwd(p, pw, ep)$/
 p_shell	field.c	/^p_shell(p, pw, ep)$/
 p_uid	field.c	/^p_uid(p, pw, ep)$/
+pw_cont	../../usr.sbin/vipw/pw_util.c	/^pw_cont(sig)$/
 pw_copy	pw_copy.c	/^pw_copy(ffd, tfd, pw)$/
 pw_edit	../../usr.sbin/vipw/pw_util.c	/^pw_edit(notsetuid)$/
 pw_error	../../usr.sbin/vipw/pw_util.c	/^pw_error(name, err, eval)$/

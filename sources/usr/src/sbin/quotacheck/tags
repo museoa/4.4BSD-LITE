@@ -1,11 +1,10 @@
 Mquotacheck	quotacheck.c	/^main(argc, argv)$/
 addid	quotacheck.c	/^addid(id, type, name)$/
 addpart	../fsck/preen.c	/^addpart(name, fsname, auxdata)$/
-blockcheck	../fsck/preen.c	/^blockcheck(name)$/
+blockcheck	../fsck/preen.c	/^blockcheck(origname)$/
 bread	quotacheck.c	/^bread(bno, buf, cnt)$/
 checkfstab	../fsck/preen.c	/^checkfstab(preen, maxrun, docheck, chkit)$/
 chkquota	quotacheck.c	/^chkquota(fsname, mntpt, qnp)$/
-err	quotacheck.c	/^err(fmt, va_alist)$/
 finddisk	../fsck/preen.c	/^finddisk(name)$/
 freeinodebuf	quotacheck.c	/^freeinodebuf()$/
 getnextinode	quotacheck.c	/^getnextinode(inumber)$/

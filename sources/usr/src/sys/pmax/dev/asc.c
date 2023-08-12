@@ -33,7 +33,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)asc.c	8.2 (Berkeley) 1/4/94
+ *	@(#)asc.c	8.5 (Berkeley) 11/30/94
  */
 
 /* 
@@ -248,6 +248,7 @@ static int asc_disconnect();		/* process an expected disconnect */
 #define	SCRIPT_CONTINUE_OUT	5
 #define	SCRIPT_SIMPLE		6
 #define	SCRIPT_GET_STATUS	7
+#define	SCRIPT_DONE		8
 #define	SCRIPT_MSG_IN		9
 #define	SCRIPT_REPLY_SYNC	11
 #define	SCRIPT_TRY_SYNC		12
@@ -297,10 +298,10 @@ script_t asc_scripts[] = {
 	/* get status and finish command */
 	{SCRIPT_MATCH(ASC_INT_FC, ASC_PHASE_MSG_IN),			/*  7 */
 		asc_get_status, ASC_CMD_MSG_ACPT,
-		&asc_scripts[SCRIPT_GET_STATUS + 1]},
+		&asc_scripts[SCRIPT_DONE]},
 	{SCRIPT_MATCH(ASC_INT_DISC, 0),					/*  8 */
 		asc_end, ASC_CMD_NOP,
-		&asc_scripts[SCRIPT_GET_STATUS + 1]},
+		&asc_scripts[SCRIPT_DONE]},
 
 	/* message in */
 	{SCRIPT_MATCH(ASC_INT_FC, ASC_PHASE_MSG_IN),			/*  9 */
@@ -902,6 +903,7 @@ again:
 			/* save number of bytes still to be sent or received */
 			state->dmaresid = len;
 			state->flags &= ~DMA_IN_PROGRESS;
+			ASC_TC_PUT(regs, 0);
 #ifdef DEBUG
 			if (asc_logp == asc_log)
 				asc_log[NLOG - 1].resid = len;
@@ -932,9 +934,11 @@ again:
 			else
 				state->script = asc->script;
 		} else if (state->flags & DMA_IN) {
-			if (len)
-				printf("asc_intr: 1: len %d (fifo %d)\n", len,
-					fifo); /* XXX */
+			if (len) {
+				printf("asc_intr: 1: bn %d len %d (fifo %d)\n",
+					asc_debug_bn, len, fifo); /* XXX */
+				goto abort;
+			}
 			/* setup state to resume to */
 			if (state->flags & DMA_IN_PROGRESS) {
 				len = state->dmalen;
@@ -952,9 +956,11 @@ again:
 				state->script =
 				    &asc_scripts[SCRIPT_RESUME_NO_DATA];
 		} else if (state->flags & DMA_OUT) {
-			if (len)
+			if (len) {
 				printf("asc_intr: 2: len %d (fifo %d)\n", len,
 					fifo); /* XXX */
+				goto abort;
+			}
 			/*
 			 * If this is the last chunk, the next expected
 			 * state is to get status.
@@ -1013,14 +1019,30 @@ again:
 	/* check for disconnect */
 	if (ir & ASC_INT_DISC) {
 		state = &asc->st[asc->target];
-		switch (ASC_SS(ss)) {
-		case 0: /* device did not respond */
-			/* check for one of the starting scripts */
-			switch (asc->script - asc_scripts) {
-			case SCRIPT_TRY_SYNC:
-			case SCRIPT_SIMPLE:
-			case SCRIPT_DATA_IN:
-			case SCRIPT_DATA_OUT:
+		switch (asc->script - asc_scripts) {
+		case SCRIPT_DONE:
+		case SCRIPT_DISCONNECT:
+			/*
+			 * Disconnects can happen normally when the
+			 * command is complete with the phase being
+			 * either ASC_PHASE_DATAO or ASC_PHASE_MSG_IN.
+			 * The SCRIPT_MATCH() only checks for one phase
+			 * so we can wind up here.
+			 * Perform the appropriate operation, then proceed.
+			 */
+			if ((*scpt->action)(asc, status, ss, ir)) {
+				regs->asc_cmd = scpt->command;
+				readback(regs->asc_cmd);
+				asc->script = scpt->next;
+			}
+			goto done;
+
+		case SCRIPT_TRY_SYNC:
+		case SCRIPT_SIMPLE:
+		case SCRIPT_DATA_IN:
+		case SCRIPT_DATA_OUT: /* one of the starting scripts */
+			if (ASC_SS(ss) == 0) {
+				/* device did not respond */
 				if (regs->asc_flags & ASC_FLAGS_FIFO_CNT) {
 					regs->asc_cmd = ASC_CMD_FLUSH;
 					readback(regs->asc_cmd);
@@ -1034,6 +1056,9 @@ again:
 		default:
 			printf("asc%d: SCSI device %d: unexpected disconnect\n",
 				asc - asc_softc, asc->target);
+#ifdef DEBUG
+			asc_DumpLog("asc_disc");
+#endif
 			/*
 			 * On rare occasions my RZ24 does a disconnect during
 			 * data in phase and the following seems to keep it
@@ -1109,7 +1134,7 @@ abort:
 #if 0
 	panic("asc_intr");
 #else
-	for (;;);
+	boot(4); /* XXX */
 #endif
 }
 
@@ -1141,7 +1166,9 @@ asc_get_status(asc, status, ss, ir)
 	 */
 	if ((data = regs->asc_flags & ASC_FLAGS_FIFO_CNT) != 2) {
 		printf("asc_get_status: fifo cnt %d\n", data); /* XXX */
+#ifdef DEBUG
 		asc_DumpLog("get_status"); /* XXX */
+#endif
 		if (data < 2) {
 			asc->regs->asc_cmd = ASC_CMD_MSG_ACPT;
 			readback(asc->regs->asc_cmd);
@@ -1260,6 +1287,12 @@ asc_dma_in(asc, status, ss, ir)
 
 	/* setup to start reading the next chunk */
 	len = state->buflen;
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	if (len > state->dmaBufSize)
 		len = state->dmaBufSize;
 	state->dmalen = len;
@@ -1325,6 +1358,12 @@ asc_resume_in(asc, status, ss, ir)
 
 	/* setup to start reading the next chunk */
 	len = state->buflen;
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	if (len > state->dmaBufSize)
 		len = state->dmaBufSize;
 	state->dmalen = len;
@@ -1365,6 +1404,12 @@ asc_resume_dma_in(asc, status, ss, ir)
 			state->dmalen, len, off); /* XXX */
 		regs->asc_res_fifo = state->dmaBufAddr[off];
 	}
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	(*asc->dma_start)(asc, state, state->dmaBufAddr + off, ASCDMA_READ);
 	ASC_TC_PUT(regs, len);
 #ifdef DEBUG
@@ -1409,6 +1454,12 @@ asc_dma_out(asc, status, ss, ir)
 
 	/* setup for this chunk */
 	len = state->buflen;
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	if (len > state->dmaBufSize)
 		len = state->dmaBufSize;
 	state->dmalen = len;
@@ -1473,6 +1524,12 @@ asc_resume_out(asc, status, ss, ir)
 
 	/* setup for this chunk */
 	len = state->buflen;
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	if (len > state->dmaBufSize)
 		len = state->dmaBufSize;
 	state->dmalen = len;
@@ -1516,6 +1573,12 @@ asc_resume_dma_out(asc, status, ss, ir)
 		off++;
 		len--;
 	}
+#ifdef DEBUG
+	if (asc_logp == asc_log)
+		asc_log[NLOG - 1].resid = len;
+	else
+		asc_logp[-1].resid = len;
+#endif
 	(*asc->dma_start)(asc, state, state->dmaBufAddr + off, ASCDMA_WRITE);
 	ASC_TC_PUT(regs, len);
 #ifdef DEBUG

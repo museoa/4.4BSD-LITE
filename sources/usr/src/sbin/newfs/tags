@@ -3,6 +3,7 @@ MAXIPG	mkfs.c	/^#define MAXIPG(fs)	roundup((fs)->fs_bsize * NBBY /
 Mnewfs	newfs.c	/^main(argc, argv)$/
 POWEROF2	mkfs.c	/^#define POWEROF2(num)	(((num) & ((num) - 1)) == 0)/
 alloc	mkfs.c	/^alloc(size, mode)$/
+calcipg	mkfs.c	/^calcipg(cpg, bpcg, usedbp)$/
 calloc	mkfs.c	/^calloc(size, numelm)$/
 clrblock	mkfs.c	/^clrblock(fs, cp, h)$/
 dkcksum	../disklabel/dkcksum.c	/^dkcksum(lp)$/
@@ -10,7 +11,7 @@ fatal	newfs.c	/^fatal(fmt, va_alist)$/
 free	mkfs.c	/^free(ptr)$/
 fsinit	mkfs.c	/^fsinit(utime)$/
 getdisklabel	newfs.c	/^getdisklabel(s, fd)$/
-getmntopts	../mount/getmntopts.c	/^getmntopts(options, m0, flagp)$/
+getmntopts	../mount/getmntopts.c	/^getmntopts(options, m0, flagp, altflagp)$/
 initcg	mkfs.c	/^initcg(cylno, utime)$/
 iput	mkfs.c	/^iput(ip, ino)$/
 isblock	mkfs.c	/^isblock(fs, cp, h)$/

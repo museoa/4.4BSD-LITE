@@ -53,7 +53,8 @@
 .\"
 .\"	@(#)root.cache	6.4 (Berkeley) 4/29/90
 .\"
-.ne 38v
+.\".ne 38v
+.bp
 .sh 3 "root.cache"
 .(b L
 

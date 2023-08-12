@@ -6,8 +6,8 @@ bi_toss	library.c	/^bi_toss(dummy, a, b)$/
 bi_tossold	cleanerd.c	/^bi_tossold(client, a, b)$/
 choose_segments	cleanerd.c	/^choose_segments(fsp, seglist, cost_func)$/
 cksum	/sys/ufs/lfs/lfs_cksum.c	/^cksum(str, len)$/
-clean_fs	cleanerd.c	/^clean_fs(fsp, cost_func)$/
-clean_loop	cleanerd.c	/^clean_loop(fsp)$/
+clean_fs	cleanerd.c	/^clean_fs(fsp, cost_func, nsegs, options)$/
+clean_loop	cleanerd.c	/^clean_loop(fsp, nsegs, options)$/
 clean_segment	cleanerd.c	/^clean_segment(fsp, id)$/
 cost_benefit	cleanerd.c	/^cost_benefit(fsp, su)$/
 cost_compare	cleanerd.c	/^cost_compare(a, b)$/

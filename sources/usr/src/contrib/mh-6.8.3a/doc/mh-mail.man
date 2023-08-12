@@ -89,7 +89,6 @@ MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
        Date:
             Added by _p_o_s_t (8), contains date and time of the mes-
             sage's entry into the transport system.
-
        From:
             Added by _p_o_s_t (8), contains the address of the author
             or authors (may be more than one if a "Sender:" field
@@ -121,6 +120,7 @@ MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
             cessfully given to the transport system.
 
        Message-ID:
+            A  unique message identifier added by _p_o_s_t (8) if the
 
 
 
@@ -136,7 +136,6 @@ MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
 MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
 
 
-            A  unique message identifier added by _p_o_s_t (8) if the
             `-msgid' flag is set.
 
        Subject:
@@ -169,7 +168,6 @@ MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
             A unique identifier  glued  on  by  _p_o_s_t (8)  if  the
             `-msgid'   flag   is   set.   See  "Message-Id:"  and
             "Resent-To:".
-
        Resent:
             Annotation for _d_i_s_t (1) under the `-annotate' option.
 
@@ -186,7 +184,9 @@ FFIILLEESS
 PPRROOFFIILLEE CCOOMMPPOONNEENNTTSS
        None
 
-
+SSEEEE AALLSSOO
+       _S_t_a_n_d_a_r_d  _f_o_r  _t_h_e  _F_o_r_m_a_t  _o_f _A_R_P_A _I_n_t_e_r_n_e_t _T_e_x_t _M_e_s_s_a_g_e_s
+       (aka RFC-822)
 
 
 
@@ -202,15 +202,15 @@ PPRROOFFIILLEE CCOOMMPPOONNEENNTTSS
 MH-MAIL(5)           BSD Programmer's Manual           MH-MAIL(5)
 
 
-SSEEEE AALLSSOO
-       _S_t_a_n_d_a_r_d  _f_o_r  _t_h_e  _F_o_r_m_a_t  _o_f _A_R_P_A _I_n_t_e_r_n_e_t _T_e_x_t _M_e_s_s_a_g_e_s
-       (aka RFC-822)
-
 DDEEFFAAUULLTTSS
        None
 
 CCOONNTTEEXXTT
        None
+
+
+
+
 
 
 

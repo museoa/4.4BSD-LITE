@@ -54,7 +54,7 @@
 .\"	@(#)ucbhosts	6.3 (Berkeley) 2/8/89
 .\"
 .\" .ne 48v
-.\" .bp
+.bp
 .sh 3 "Hosts"
 .(b L
 ;

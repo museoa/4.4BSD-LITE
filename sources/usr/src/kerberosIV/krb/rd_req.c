@@ -1,6 +1,6 @@
 /*
- * $Source: /usr/src/kerberosIV/src/lib/krb/RCS/rd_req.c,v $
- * $Author: kfall $
+ * $Source: /usr/src/kerberosIV/krb/RCS/rd_req.c,v $
+ * $Author: sklower $
  *
  * Copyright 1985, 1986, 1987, 1988 by the Massachusetts Institute
  * of Technology.
@@ -11,7 +11,7 @@
 
 #ifndef lint
 static char *rcsid_rd_req_c =
-"$Header: /usr/src/kerberosIV/src/lib/krb/RCS/rd_req.c,v 4.17 90/05/12 00:58:48 kfall Exp $";
+"$Header: /usr/src/kerberosIV/krb/RCS/rd_req.c,v 4.18 1995/02/25 03:57:21 sklower Exp $";
 #endif /* lint */
 
 #include <mit-copyright.h>
@@ -20,6 +20,9 @@ static char *rcsid_rd_req_c =
 #include <prot.h>
 #include <sys/time.h>
 #include <strings.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 extern int krb_ap_req_debug;
 
@@ -36,6 +39,8 @@ static int st_kvno;		/* version number for this key */
 static char st_rlm[REALM_SZ];	/* server's realm */
 static char st_nam[ANAME_SZ];	/* service name */
 static char st_inst[INST_SZ];	/* server's instance */
+
+static int check_multihome __P((u_int32_t, u_int32_t));
 
 /*
  * This file contains two functions.  krb_set_key() takes a DES
@@ -83,6 +88,44 @@ krb_set_key(key,cvt)
 #endif /* NOENCRYPTION */
 }
 
+/*
+ * check_multihome() takes as arguments the network address of the
+ * originating host and the network address extracted from the ticket.
+ * It uses the first address to get a list of all possible addresses for
+ * the originating host, and then compares the tkt_addr to each in hope
+ * of finding a match.
+ *
+ * This routine returns 0 if a match was found, -1 otherwise.
+ *
+ */
+
+static int
+check_multihome(from_addr, tkt_addr)
+u_int32_t from_addr;		/* Net address of originating host */
+u_int32_t tkt_addr;		/* Address extracted from ticket */
+{
+	struct hostent *hent;
+	char **addr;
+	int i;
+
+	hent = gethostbyaddr((char *)&from_addr, 4, AF_INET);
+	if (!hent)
+		return(-1);
+
+	hent = gethostbyname(hent->h_name);
+	if (!hent)
+		return(-1);
+
+	addr = hent->h_addr_list;
+	for (i = 0; addr && addr[i]; i++) {
+		if (krb_ap_req_debug)
+			log("Checking address %08x",*(u_int32_t *)addr[i]);
+		if (tkt_addr == *(u_int32_t *)addr[i])
+			return(0);
+	}
+
+	return(-1);
+}
 
 /*
  * krb_rd_req() takes an AUTH_MSG_APPL_REQUEST or
@@ -302,7 +345,8 @@ krb_rd_req(authent,service,instance,from_addr,ad,fn)
 
     if (krb_ap_req_debug)
         log("Address: %d %d",ad->address,from_addr);
-    if (from_addr && (ad->address != from_addr))
+    if (from_addr && (ad->address != from_addr) &&
+		check_multihome(from_addr,ad->address))
         return(RD_AP_BADD);
 
     (void) gettimeofday(&t_local,(struct timezone *) 0);

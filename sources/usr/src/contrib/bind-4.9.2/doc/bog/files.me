@@ -53,6 +53,7 @@
 .\"
 .\"	@(#)files.me	6.8 (Berkeley) 9/19/89
 .\"
+.bp
 .sh 1 "Files
 .pp
 The name server uses several files to load its data base.
@@ -131,6 +132,7 @@ for a primary server for a hesiod class zone looks as follows:
 Note that this support for specifying other than class \fIIN\fP zones is a
 compile-time option which your vendor may not have enabled when they built
 your operating system.
+.bp
 .sh 3 "Secondary Service"
 .pp
 The line for a secondary server is similar to the primary except
@@ -306,7 +308,7 @@ you are on a Class C net which has a Class B net between you and the rest of
 the Internet, you could try to improve the name server's luck in getting
 answers by listing the Class B network's number in a \fIsortlist\fP directive.
 This should have the effect of trying ``closer'' servers before the more
-``distant'' ones.  Note that this behaviour is new in \s-1BIND 4.9\s+1.
+``distant'' ones.  Note that this behaviour is new in \s-1BIND 4.9\s+1.<
 .pp
 The other and older effect of the \fIsortlist\fP directive is to cause
 \s-1BIND\s+1 to sort the \fIA\fP records in any response it generates, so as
@@ -585,6 +587,7 @@ how it works.  The name server fundamentally requires that a given zone map
 entirely to some specific file.  You should therefore be very careful to use
 $ORIGIN only once at the top of a file, or, within a file, to change to a
 ``lower'' domain in the zone  \(em never to some other zone altogether.
+.bp
 .sh 3 "SOA - Start Of Authority"
 .(b L
 .TS
@@ -791,6 +794,7 @@ to encode the local user database (\fI/etc/passwd\fP) and other administrative
 data.  MIT Hesiod is one such system, which, though it uses an addr-class of
 \fIHS\fP rather than \fIIN\fP, implements its database with \fITXT\fP records
 in the \s-1DNS\s+1.
+.bp
 .sh 3 "RP - Responsible Person"
 .TS
 l l l l l l.

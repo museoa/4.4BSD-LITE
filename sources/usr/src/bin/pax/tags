@@ -21,6 +21,7 @@ chk_same	file_subs.c	/^chk_same(arcn)$/
 com_rd	cpio.c	/^com_rd(arcn)$/
 cp_file	buf_subs.c	/^cp_file(arcn, fd1, fd2)$/
 cpio_id	cpio.c	/^cpio_id(blk, size)$/
+cpio_options	options.c	/^cpio_options(argc, argv)$/
 cpio_rd	cpio.c	/^cpio_rd(arcn, buf)$/
 cpio_trail	cpio.c	/^cpio_trail(arcn)$/
 cpio_wr	cpio.c	/^cpio_wr(arcn)$/
@@ -48,6 +49,7 @@ next_head	ar_subs.c	/^next_head(arcn)$/
 node_creat	file_subs.c	/^node_creat(arcn)$/
 opt_add	options.c	/^opt_add(str)$/
 options	options.c	/^options(argc, argv)$/
+pax_options	options.c	/^pax_options(argc, argv)$/
 pback	buf_subs.c	/^pback(pt, cnt)$/
 printflg	options.c	/^printflg(flg)$/
 purg_lnk	tables.c	/^purg_lnk(arcn)$/
@@ -71,6 +73,7 @@ sub_name	tables.c	/^sub_name(oname, onamelen)$/
 syswarn	tty_subs.c	/^syswarn(set, errnum, fmt, va_alist)$/
 tar_chksm	tar.c	/^tar_chksm(blk, len)$/
 tar_id	tar.c	/^tar_id(blk, size)$/
+tar_options	options.c	/^tar_options(argc, argv)$/
 tar_rd	tar.c	/^tar_rd(arcn, buf)$/
 tar_trail	tar.c	/^tar_trail(buf, in_resync, cnt)$/
 tar_wr	tar.c	/^tar_wr(arcn)$/

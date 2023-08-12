@@ -37,7 +37,7 @@
  *
  * from: Utah $Hdr: st.c 1.11 92/01/21$
  *
- *      @(#)st.c	8.3 (Berkeley) 1/12/94
+ *      @(#)st.c	8.5 (Berkeley) 1/9/95
  */
 
 /*
@@ -721,6 +721,7 @@ stclose(dev, flag)
 	return(0);	/* XXX */
 }
 
+void
 ststrategy(bp)
 	register struct buf *bp;
 {
@@ -887,7 +888,7 @@ stdump(dev)
 /*ARGSUSED*/
 stioctl(dev, cmd, data, flag)
 	dev_t dev;
-	int cmd;
+	u_long cmd;
 	caddr_t data; 
 	int flag;
 {
@@ -949,10 +950,12 @@ stioctl(dev, cmd, data, flag)
 				 xp->exb_xsense.tplft1 << 8 |
 				 xp->exb_xsense.tplft0);
 			mtget->mt_resid = resid / 1000;
-			mtget->mt_erreg |= (((xp->exb_xsense.rwerrcnt2 << 16 |
-					      xp->exb_xsense.rwerrcnt1 << 8 |
-					      xp->exb_xsense.rwerrcnt0) * 100) / 
-					    (sc->sc_numblks - resid)) & 0xff;
+			if (sc->sc_numblks - resid)
+				mtget->mt_erreg |=
+					(((xp->exb_xsense.rwerrcnt2 << 16 |
+					   xp->exb_xsense.rwerrcnt1 << 8 |
+					   xp->exb_xsense.rwerrcnt0) * 100) / 
+					 (sc->sc_numblks - resid)) & 0xff;
 		} else if (xp->sc_xsense.valid) {
 			resid = ((xp->sc_xsense.info1 << 24) |
 				 (xp->sc_xsense.info2 << 16) |

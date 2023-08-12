@@ -1226,12 +1226,10 @@ opena(f,zz) char *f; struct zattr *zz; {
 
     } else {				/* Did not open file OK. */
 #ifdef ATTSV
-	extern char *sys_errlist[];
 	extern int errno;
 	screen(SCR_EM,0,0l,sys_errlist[errno]);
 #else
 #ifdef BSD4
-	extern char *sys_errlist[];
 	extern int errno;
 	screen(SCR_EM,0,0l,sys_errlist[errno]);
 #else

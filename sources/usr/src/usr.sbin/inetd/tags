@@ -5,7 +5,7 @@ SWAP	inetd.c	/^#define SWAP(a, b) { char *c = a; a = b; b = c; }$/
 chargen_dg	inetd.c	/^chargen_dg(s, sep)		\/* Character generator *\/$/
 chargen_stream	inetd.c	/^chargen_stream(s, sep)		\/* Character generator */
 close_sep	inetd.c	/^close_sep(sep)$/
-config	inetd.c	/^config()$/
+config	inetd.c	/^config(signo)$/
 daytime_dg	inetd.c	/^daytime_dg(s, sep)		\/* Return human-readable time/
 daytime_stream	inetd.c	/^daytime_stream(s, sep)		\/* Return human-readable /
 discard_dg	inetd.c	/^discard_dg(s, sep)		\/* Discard service -- ignore /
@@ -24,8 +24,8 @@ machtime_stream	inetd.c	/^machtime_stream(s, sep)$/
 newstr	inetd.c	/^newstr(cp)$/
 nextline	inetd.c	/^nextline(fd)$/
 print_service	inetd.c	/^print_service(action, sep)$/
-reapchild	inetd.c	/^reapchild()$/
-retry	inetd.c	/^retry()$/
+reapchild	inetd.c	/^reapchild(signo)$/
+retry	inetd.c	/^retry(signo)$/
 setconfig	inetd.c	/^setconfig()$/
 setproctitle	inetd.c	/^setproctitle(a, s)$/
 setup	inetd.c	/^setup(sep)$/

@@ -1,3 +1,2 @@
 Mbiff	biff.c	/^main(argc, argv)$/
-err	biff.c	/^err(name)$/
 usage	biff.c	/^usage()$/

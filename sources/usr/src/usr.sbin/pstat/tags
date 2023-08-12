@@ -18,6 +18,8 @@ ttyprt	pstat.c	/^ttyprt(tp, line)$/
 ttytype	pstat.c	/^ttytype(tty, name, type, number)$/
 ufs_header	pstat.c	/^ufs_header() $/
 ufs_print	pstat.c	/^ufs_print(vp) $/
+union_header	pstat.c	/^union_header() $/
+union_print	pstat.c	/^union_print(vp) $/
 usage	pstat.c	/^usage()$/
 vnode_header	pstat.c	/^vnode_header()$/
 vnode_print	pstat.c	/^vnode_print(avnode, vp)$/

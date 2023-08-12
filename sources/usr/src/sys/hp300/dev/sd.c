@@ -33,7 +33,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)sd.c	8.4 (Berkeley) 4/22/94
+ *	@(#)sd.c	8.9 (Berkeley) 5/14/95
  */
 
 /*
@@ -64,10 +64,7 @@ static char rcsid[] = "$Header: /sys.lite/hp300/dev/RCS/sd.c,v 1.2 1994/01/10 18
 #include <hp300/hp300/led.h>
 #endif
 
-#include <vm/vm_param.h>
-#include <vm/lock.h>
-#include <vm/vm_prot.h>
-#include <vm/pmap.h>
+#include <vm/vm.h>
 
 extern int scsi_test_unit_rdy();
 extern int scsi_request_sense();
@@ -486,6 +483,9 @@ sdgetinfo(dev)
 #endif
 	printf("defining `c' partition as entire disk\n");
 	pi[2].p_size = sc->sc_blks;
+	/* XXX reset other info since readdisklabel screws with it */
+	lp->d_npartitions = 3;
+	pi[0].p_size = 0;
 	return(0);
 }
 
@@ -497,29 +497,17 @@ sdopen(dev, flags, mode, p)
 {
 	register int unit = sdunit(dev);
 	register struct sd_softc *sc = &sd_softc[unit];
-	int mask, error;
+	int error, mask;
 
-	if (unit >= NSD)
+	if (unit >= NSD || (sc->sc_flags & SDF_ALIVE) == 0)
 		return(ENXIO);
-	/*
-	 * If a drive's position was fully qualified (i.e. not wildcarded in
-	 * any way, we allow root to open the device even though it wasn't
-	 * found at autoconfig time.  This allows initial formatting of disks.
-	 * However, if any part of the specification was wildcarded, we won't
-	 * be able to locate the drive so there is nothing we can do.
-	 */
-	if ((sc->sc_flags & SDF_ALIVE) == 0 &&
-	    (suser(p->p_ucred, &p->p_acflag) ||
-	     sc->sc_hd->hp_ctlr < 0 || sc->sc_hd->hp_slave < 0))
-		return(ENXIO);
-	if (sc->sc_flags & SDF_ERROR)
-		return(EIO);
 
 	/*
 	 * Wait for any pending opens/closes to complete
 	 */
 	while (sc->sc_flags & (SDF_OPENING|SDF_CLOSING))
 		sleep((caddr_t)sc, PRIBIO);
+
 	/*
 	 * On first open, get label and partition info.
 	 * We may block reading the label, so be careful
@@ -1019,7 +1007,7 @@ sdwrite(dev, uio, flags)
 int
 sdioctl(dev, cmd, data, flag, p)
 	dev_t dev;
-	int cmd;
+	u_long cmd;
 	caddr_t data;
 	int flag;
 	struct proc *p;

@@ -53,7 +53,7 @@
 .\"
 .\"	@(#)named.boot.cache	6.4 (Berkeley) 9/19/89
 .\"
-.ne 13v
+.bp
 .sh 4 "Caching Only Server"
 .(b L 
 .TS
@@ -73,5 +73,3 @@ cache	\fB.\fP	root\fB.\fPcache
 primary	0\fB.\fP0\fB.\fP127\fB.\fPin-addr\fB.\fParpa	named\fB.\fPlocal
 .TE
 .)b
-
-

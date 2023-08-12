@@ -184,7 +184,7 @@ CCOONNTTEEXXTT
        None
 
 BBUUGGSS
-       Under some configurations, it is not possible  to  mointor
+       Under some configurations, it is not possible  to  monitor
        the  mail  delivery  transaction;  `-watch'  is a no-op on
        those systems.
 
